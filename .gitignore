@@ -1,0 +1,4 @@
+build/
+dist/
+chesstournament.egg-info/
+*.pyc
