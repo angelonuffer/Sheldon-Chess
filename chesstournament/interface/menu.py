@@ -1,6 +1,10 @@
 import os
 import pygame
 
+MAILRAYS = os.path.join(os.path.dirname(__file__), "fonts", "mailrays.ttf")
+BUTTON_NORMAL = os.path.join(os.path.dirname(__file__), "images", "button_normal.png")
+BUTTON_MOUSE_OVER = os.path.join(os.path.dirname(__file__), "images", "button_mouse_over.png")
+
 
 class Menu(object):
 
@@ -26,13 +30,18 @@ class Menu(object):
 
 class Button(object):
 
+    FONT = pygame.font.Font(MAILRAYS, 20)
+
     def __init__(self, text):
         self.text = text
         self.size = self.width, self.height = 200, 40
-        normal_path = os.path.join(os.path.dirname(__file__), "images", "button_normal.png")
-        self.normal = pygame.image.load(normal_path)
-        mouse_over_path = os.path.join(os.path.dirname(__file__), "images", "button_mouse_over.png")
-        self.mouse_over = pygame.image.load(mouse_over_path)
+        self.text_surface = Button.FONT.render(text, True, (255, 255, 255))
+        text_width, text_height = self.text_surface.get_size()
+        position = self.width / 2 - text_width / 2, self.height / 2 - text_height / 2 + 5
+        self.normal = pygame.image.load(BUTTON_NORMAL)
+        self.normal.blit(self.text_surface, position)
+        self.mouse_over = pygame.image.load(BUTTON_MOUSE_OVER)
+        self.mouse_over.blit(self.text_surface, position)
 
 
 class MainMenu(Menu):

@@ -1,4 +1,6 @@
 import pygame
+pygame.font.init()
+
 from menu import MainMenu
 
 
@@ -32,4 +34,4 @@ class Window(object):
     def mouse_over(self, rect):
         x, y, width, height = rect
         mouse_x, mouse_y = pygame.mouse.get_pos()
-        return mouse_x > x and mouse_y < x + width and mouse_y > y and mouse_y < y + height
+        return mouse_x > x and mouse_x < x + width and mouse_y > y and mouse_y < y + height
