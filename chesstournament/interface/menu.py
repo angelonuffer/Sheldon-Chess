@@ -2,20 +2,28 @@ import os
 import pygame
 
 MAILRAYS = os.path.join(os.path.dirname(__file__), "fonts", "mailrays.ttf")
+WATER_ON_THE_OIL = os.path.join(os.path.dirname(__file__), "fonts", "WaterontheOil.ttf")
 BUTTON_NORMAL = os.path.join(os.path.dirname(__file__), "images", "button_normal.png")
 BUTTON_MOUSE_OVER = os.path.join(os.path.dirname(__file__), "images", "button_mouse_over.png")
 
 
 class Menu(object):
 
-    def __init__(self, window, buttons):
+    FONT = pygame.font.Font(WATER_ON_THE_OIL, 50)
+
+    def __init__(self, window, title, buttons):
         self.window = window
+        self.title = title
         self.buttons = buttons
+        self.title_surface = Menu.FONT.render(title, True, (255, 255, 255))
         self.surface = pygame.Surface(window.size)
 
     @property
     def frame(self):
         self.surface.fill((0, 0, 0))
+        title_width, title_height = self.title_surface.get_size()
+        position = self.window.width / 2 - title_width / 2, 100
+        self.surface.blit(self.title_surface, position)
         for i, button in enumerate(self.buttons):
             x, y = self.window.center
             x = x - button.width / 2
@@ -56,7 +64,7 @@ class MainMenu(Menu):
             Button("Credits", self.credits),
             Button("Exit", self.exit),
         ]
-        super(MainMenu, self).__init__(window, buttons)
+        super(MainMenu, self).__init__(window, "Chess Tournament", buttons)
 
     def new_game(self):
         pass
