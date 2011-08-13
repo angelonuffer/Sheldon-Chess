@@ -1,3 +1,4 @@
+import os
 import pygame
 
 
@@ -15,7 +16,11 @@ class Menu(object):
             x, y = self.window.center
             x = x - button.width / 2
             y = y - button.height / 2 + 50 * i
-            self.surface.blit(button.normal, (x, y, button.width, button.height))
+            rect = (x, y, button.width, button.height)
+            if self.window.mouse_over(rect):
+                self.surface.blit(button.mouse_over, rect)
+            else:
+                self.surface.blit(button.normal, rect)
         return self.surface
 
 
@@ -24,13 +29,10 @@ class Button(object):
     def __init__(self, text):
         self.text = text
         self.size = self.width, self.height = 200, 40
-        self.surface = pygame.Surface(self.size)
-        self.surface.fill((255, 255, 255))
-
-    @property
-    def normal(self):
-        return self.surface
-
+        normal_path = os.path.join(os.path.dirname(__file__), "images", "button_normal.png")
+        self.normal = pygame.image.load(normal_path)
+        mouse_over_path = os.path.join(os.path.dirname(__file__), "images", "button_mouse_over.png")
+        self.mouse_over = pygame.image.load(mouse_over_path)
 
 
 class MainMenu(Menu):
