@@ -22,6 +22,8 @@ class Menu(object):
             y = y - button.height / 2 + 50 * i
             rect = (x, y, button.width, button.height)
             if self.window.mouse_over(rect):
+                if pygame.mouse.get_pressed()[0]:
+                    button.action()
                 self.surface.blit(button.mouse_over, rect)
             else:
                 self.surface.blit(button.normal, rect)
@@ -32,8 +34,9 @@ class Button(object):
 
     FONT = pygame.font.Font(MAILRAYS, 20)
 
-    def __init__(self, text):
+    def __init__(self, text, action):
         self.text = text
+        self.action = action
         self.size = self.width, self.height = 200, 40
         self.text_surface = Button.FONT.render(text, True, (255, 255, 255))
         text_width, text_height = self.text_surface.get_size()
@@ -47,5 +50,22 @@ class Button(object):
 class MainMenu(Menu):
 
     def __init__(self, window):
-        buttons = map(Button, ["New Game", "Options", "Credits", "Exit"])
+        buttons = [
+            Button("New Game", self.new_game),
+            Button("Options", self.options),
+            Button("Credits", self.credits),
+            Button("Exit", self.exit),
+        ]
         super(MainMenu, self).__init__(window, buttons)
+
+    def new_game(self):
+        pass
+
+    def options(self):
+        pass
+
+    def credits(self):
+        pass
+
+    def exit(self):
+        self.window.running = False
