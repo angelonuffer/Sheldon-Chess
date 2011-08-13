@@ -6,17 +6,16 @@ from menu import MainMenu
 
 class Window(object):
 
-    def __init__(self):
+    def __init__(self, size=(800, 600)):
+        self.size = self.width, self.height = size
         self.screen = None
-        self.size = self.width, self.height = 0, 0
 
     @property
     def center(self):
         return self.width / 2, self.height / 2
 
-    def init(self, size=(800, 600)):
-        self.size = self.width, self.height = size
-        self.screen = pygame.display.set_mode(size)
+    def init(self):
+        self.screen = pygame.display.set_mode(self.size)
         main_menu = MainMenu(self)
         self.running = True
         self.display(main_menu)
