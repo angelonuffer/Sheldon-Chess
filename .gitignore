@@ -3,3 +3,4 @@ dist/
 chesstournament.egg-info/
 *.pyc
 *.pickle
+*.mo

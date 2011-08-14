@@ -1,7 +1,11 @@
+import os
+import gettext
 import pygame
 pygame.font.init()
 
 from menu import MainMenu
+
+LOCALE = os.path.join(os.path.dirname(__file__), "locales")
 
 
 class Window(object):
@@ -9,12 +13,17 @@ class Window(object):
     def __init__(self, size=(800, 600)):
         self.size = self.width, self.height = size
         self.screen = None
+        self.language = "en"
 
     @property
     def center(self):
         return self.width / 2, self.height / 2
 
     def init(self):
+        global _
+        translation = gettext.translation("menu", LOCALE, languages=[self.language])
+        translation.install()
+        _ = translation.lgettext
         self.screen = pygame.display.set_mode(self.size)
         main_menu = MainMenu(self)
         self.running = True

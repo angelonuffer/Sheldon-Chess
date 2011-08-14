@@ -59,10 +59,10 @@ class MainMenu(Menu):
 
     def __init__(self, window):
         buttons = [
-            Button("New Game", self.new_game),
-            Button("Options", self.options),
-            Button("Credits", self.credits),
-            Button("Exit", self.exit),
+            Button(_("new game"), self.new_game),
+            Button(_("options"), self.options),
+            Button(_("credits"), self.credits),
+            Button(_("exit"), self.exit),
         ]
         super(MainMenu, self).__init__(window, "Chess Tournament", buttons)
 

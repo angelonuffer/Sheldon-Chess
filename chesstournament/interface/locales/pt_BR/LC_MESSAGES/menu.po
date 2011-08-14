@@ -1,0 +1,11 @@
+msgid "new game"
+msgstr "Novo Jogo"
+
+msgid "options"
+msgstr "Opcoes"
+
+msgid "credits"
+msgstr "Creditos"
+
+msgid "exit"
+msgstr "Sair"
