@@ -1,17 +1,33 @@
-import os
 import pygame
-
-MAILRAYS = os.path.join(os.path.dirname(__file__), "fonts", "mailrays.ttf")
-WATER_ON_THE_OIL = os.path.join(os.path.dirname(__file__), "fonts", "WaterontheOil.ttf")
-BUTTON_NORMAL = os.path.join(os.path.dirname(__file__), "images", "button_normal.png")
-BUTTON_MOUSE_OVER = os.path.join(os.path.dirname(__file__), "images", "button_mouse_over.png")
+from widgets import Button, TextBox
+from constants import WATER_ON_THE_OIL
 
 
-class Menu(object):
+class Screen(object):
+
+    def __init__(self, window):
+        self.window = window
+        self.running = True
+
+    def put_widget(self, widget, center):
+        x, y = center
+        x = x - widget.width / 2
+        y = y - widget.height / 2
+        rect = (x, y, widget.width, widget.height)
+        if self.window.mouse_over(rect):
+            if pygame.mouse.get_pressed()[0]:
+                widget.action()
+            self.surface.blit(widget.mouse_over, rect)
+        else:
+            self.surface.blit(widget.normal, rect)
+
+
+class Menu(Screen):
 
     FONT = pygame.font.Font(WATER_ON_THE_OIL, 50)
 
     def __init__(self, window, title, buttons):
+        super(Menu, self).__init__(window)
         self.window = window
         self.title = title
         self.buttons = buttons
@@ -26,33 +42,9 @@ class Menu(object):
         self.surface.blit(self.title_surface, position)
         for i, button in enumerate(self.buttons):
             x, y = self.window.center
-            x = x - button.width / 2
-            y = y - button.height / 2 + 50 * i
-            rect = (x, y, button.width, button.height)
-            if self.window.mouse_over(rect):
-                if pygame.mouse.get_pressed()[0]:
-                    button.action()
-                self.surface.blit(button.mouse_over, rect)
-            else:
-                self.surface.blit(button.normal, rect)
+            y = y + 50 * i
+            self.put_widget(button, (x, y))
         return self.surface
-
-
-class Button(object):
-
-    FONT = pygame.font.Font(MAILRAYS, 20)
-
-    def __init__(self, text, action):
-        self.text = text
-        self.action = action
-        self.size = self.width, self.height = 200, 40
-        self.text_surface = Button.FONT.render(text, True, (255, 255, 255))
-        text_width, text_height = self.text_surface.get_size()
-        position = self.width / 2 - text_width / 2, self.height / 2 - text_height / 2 + 5
-        self.normal = pygame.image.load(BUTTON_NORMAL)
-        self.normal.blit(self.text_surface, position)
-        self.mouse_over = pygame.image.load(BUTTON_MOUSE_OVER)
-        self.mouse_over.blit(self.text_surface, position)
 
 
 class MainMenu(Menu):
@@ -67,7 +59,8 @@ class MainMenu(Menu):
         super(MainMenu, self).__init__(window, "Chess Tournament", buttons)
 
     def new_game(self):
-        pass
+        lobby = NormalGameLobby(self.window)
+        self.window.display(lobby)
 
     def options(self):
         pass
@@ -77,3 +70,29 @@ class MainMenu(Menu):
 
     def exit(self):
         self.window.running = False
+
+
+class NormalGameLobby(Screen):
+
+    def __init__(self, window):
+        super(NormalGameLobby, self).__init__(window)
+        self.surface = pygame.Surface(window.size)
+        self.back_button = Button(_("back"), self.back)
+        self.player_black = TextBox("Player 1")
+        self.player_white = TextBox("Player 2")
+        self.start_button = Button(_("start"), self.start)
+
+    @property
+    def frame(self):
+        self.surface.fill((100, 100, 255))
+        self.put_widget(self.back_button, (120, self.window.center[1]))
+        self.put_widget(self.player_black, (self.window.center[0], 50))
+        self.put_widget(self.player_white, (self.window.center[0], 100))
+        self.put_widget(self.start_button, (self.window.width - 120, self.window.center[1]))
+        return self.surface
+
+    def back(self):
+        self.running = False
+
+    def start(self):
+        pass

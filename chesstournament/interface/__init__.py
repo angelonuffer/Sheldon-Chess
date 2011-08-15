@@ -4,8 +4,7 @@ import pygame
 pygame.font.init()
 
 from menu import MainMenu
-
-LOCALE = os.path.join(os.path.dirname(__file__), "locales")
+from constants import LOCALE
 
 
 class Window(object):
@@ -31,7 +30,7 @@ class Window(object):
         pygame.display.quit()
 
     def display(self, screen):
-        while self.running:
+        while self.running and screen.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False

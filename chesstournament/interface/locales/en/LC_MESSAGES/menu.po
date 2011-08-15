@@ -9,3 +9,9 @@ msgstr "Credits"
 
 msgid "exit"
 msgstr "Exit"
+
+msgid "back"
+msgstr "Back"
+
+msgid "start"
+msgstr "Start"

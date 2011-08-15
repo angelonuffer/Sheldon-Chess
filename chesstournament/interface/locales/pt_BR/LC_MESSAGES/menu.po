@@ -9,3 +9,9 @@ msgstr "Creditos"
 
 msgid "exit"
 msgstr "Sair"
+
+msgid "back"
+msgstr "Voltar"
+
+msgid "start"
+msgstr "Comecar"
