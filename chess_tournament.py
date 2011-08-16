@@ -8,4 +8,5 @@ else:
     window = Window()
 window.init()
 del window.screen
+del window.focus
 pickle.dump(window, open("window.pickle", "w"))

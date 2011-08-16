@@ -8,7 +8,15 @@ from constants import (
     )
 
 
-class Button(object):
+class Widget(object):
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                self.action()
+
+
+class Button(Widget):
 
     FONT = pygame.font.Font(MAILRAYS, 20)
 
@@ -25,7 +33,7 @@ class Button(object):
         self.mouse_over.blit(self.text_surface, position)
 
 
-class TextBox(object):
+class TextBox(Widget):
 
     FONT = pygame.font.Font(MAILRAYS, 20)
 

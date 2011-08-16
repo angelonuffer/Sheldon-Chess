@@ -13,6 +13,7 @@ class Window(object):
         self.size = self.width, self.height = size
         self.screen = None
         self.language = "en"
+        self.focus = None
 
     @property
     def center(self):
@@ -24,6 +25,7 @@ class Window(object):
         translation.install()
         _ = translation.lgettext
         self.screen = pygame.display.set_mode(self.size)
+        self.focus = None
         main_menu = MainMenu(self)
         self.running = True
         self.display(main_menu)
@@ -34,6 +36,8 @@ class Window(object):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+                elif self.focus:
+                    self.focus.handle_event(event)
             self.screen.fill((0, 0, 0))
             self.screen.blit(screen.frame, (0, 0, self.width, self.height))
             pygame.display.flip()

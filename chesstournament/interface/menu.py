@@ -15,11 +15,12 @@ class Screen(object):
         y = y - widget.height / 2
         rect = (x, y, widget.width, widget.height)
         if self.window.mouse_over(rect):
-            if pygame.mouse.get_pressed()[0]:
-                widget.action()
             self.surface.blit(widget.mouse_over, rect)
+            self.window.focus = widget
         else:
             self.surface.blit(widget.normal, rect)
+            if self.window.focus is widget:
+                self.window.focus = None
 
 
 class Menu(Screen):
