@@ -1,6 +1,6 @@
 import pygame
 from widgets import Button, TextBox
-from constants import WATER_ON_THE_OIL, CRUNCH
+from constants import WATER_ON_THE_OIL, MAILRAYS, CRUNCH, CREDITS
 
 
 class Screen(object):
@@ -69,7 +69,8 @@ class MainMenu(Menu):
         pass
 
     def credits(self):
-        pass
+        credits = Credits(self.window)
+        self.window.display(credits)
 
     def exit(self):
         self.window.running = False
@@ -99,3 +100,27 @@ class NormalGameLobby(Screen):
 
     def start(self):
         pass
+
+
+class Credits(Screen):
+
+    FONT = pygame.font.Font(MAILRAYS, 20)
+
+    def __init__(self, window):
+        super(Credits, self).__init__(window)
+        self.surface = pygame.Surface(window.size)
+        self.text_surface = pygame.Surface(window.size)
+        for i, line in enumerate(CREDITS.split("\n")):
+            line_surface = Credits.FONT.render(line, True, (255, 255, 255))
+            self.text_surface.blit(line_surface, (50, i * 20))
+        self.back_button = Button(_("back"), self.back)
+
+    @property
+    def frame(self):
+        self.surface.fill((0, 0, 0))
+        self.surface.blit(self.text_surface, (0, 0))
+        self.put_widget(self.back_button, (self.window.width / 2, self.window.height - 100))
+        return self.surface
+
+    def back(self):
+        self.running = False

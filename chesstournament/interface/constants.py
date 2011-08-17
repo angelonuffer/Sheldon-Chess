@@ -1,5 +1,23 @@
 import os
 
+CREDITS = """
+Developers:
+    Angelo Nuffer (angelonuffer@gmail.com)
+    Dyogo Veiga (dyogo.nsi@gmail.com)
+    Whanderley (whanderley.souza@gmail.com)
+
+Fonts:
+    Water on the Oil *
+    Mail Ray Stuff -> Ray Larabie - http://www.larabiefonts.com
+
+Music:
+    Pocketmaster - http://www.pocketmaster.ch/
+
+
+* If you know the author, send his name to a developer
+  to we give the credits.
+"""
+
 MAILRAYS = os.path.join(os.path.dirname(__file__), "fonts", "mailrays.ttf")
 WATER_ON_THE_OIL = os.path.join(os.path.dirname(__file__), "fonts", "WaterontheOil.ttf")
 CRUNCH = os.path.join(os.path.dirname(__file__), "musics", "crunch.mp3")
