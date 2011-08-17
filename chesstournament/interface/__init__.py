@@ -2,6 +2,7 @@ import os
 import gettext
 import pygame
 pygame.font.init()
+pygame.mixer.init()
 
 from menu import MainMenu
 from constants import LOCALE

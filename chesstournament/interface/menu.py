@@ -1,6 +1,6 @@
 import pygame
 from widgets import Button, TextBox
-from constants import WATER_ON_THE_OIL
+from constants import WATER_ON_THE_OIL, CRUNCH
 
 
 class Screen(object):
@@ -58,6 +58,8 @@ class MainMenu(Menu):
             Button(_("exit"), self.exit),
         ]
         super(MainMenu, self).__init__(window, "Chess Tournament", buttons)
+        pygame.mixer.music.load(CRUNCH)
+        pygame.mixer.music.play()
 
     def new_game(self):
         lobby = NormalGameLobby(self.window)
