@@ -1,5 +1,5 @@
 import pygame
-from widgets import Button, TextBox
+from widgets import Button, TextBox, Board
 from constants import WATER_ON_THE_OIL, MAILRAYS, CRUNCH, CREDITS
 
 
@@ -84,14 +84,16 @@ class NormalGameLobby(Screen):
         self.back_button = Button(_("back"), self.back)
         self.player_black = TextBox("Player 1")
         self.player_white = TextBox("Player 2")
+        self.board = Board(200, 200)
         self.start_button = Button(_("start"), self.start)
 
     @property
     def frame(self):
         self.surface.fill((100, 100, 255))
         self.put_widget(self.back_button, (120, self.window.center[1]))
-        self.put_widget(self.player_black, (self.window.center[0], 50))
-        self.put_widget(self.player_white, (self.window.center[0], 100))
+        self.put_widget(self.player_black, (self.window.center[0], 25))
+        self.put_widget(self.player_white, (self.window.center[0], 285))
+        self.put_widget(self.board, (self.window.center[0], 155))
         self.put_widget(self.start_button, (self.window.width - 120, self.window.center[1]))
         return self.surface
 

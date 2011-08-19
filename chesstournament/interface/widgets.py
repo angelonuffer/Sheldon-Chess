@@ -6,6 +6,7 @@ from constants import (
     TEXTBOX_NORMAL,
     TEXTBOX_MOUSE_OVER,
     )
+from chesstournament.game.normal import ChessBoard
 
 
 class Widget(object):
@@ -53,3 +54,23 @@ class TextBox(Widget):
         position = self.width / 2 - text_width / 2, self.height / 2 - text_height / 2 + 5
         self.normal.blit(text_surface, position)
         self.mouse_over.blit(text_surface, position)
+
+
+class Board(Widget):
+
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.core = ChessBoard()
+        white_field = pygame.Surface((width / self.core.width, height / self.core.height))
+        white_field.fill((255, 255, 255))
+        self.normal = pygame.Surface((width, height))
+        for x in range(self.core.width):
+            for y in range(self.core.height):
+                field = self.core.get_field(x, y)
+                if field.color == "white":
+                    self.normal.blit(white_field, (x * width / self.core.width, y * height / self.core.height))
+        self.mouse_over = self.normal.copy()
+
+    def action(self):
+        pass

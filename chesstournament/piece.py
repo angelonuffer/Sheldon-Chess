@@ -6,26 +6,24 @@ class Piece(object):
 
 
 class Pawn(Piece):
-    pass                 
+    pass
 
 
 class Rook(Piece):
     pass
 
-        
+
 class Bishop(Piece):
     pass
 
-        
+
 class Horse(Piece):
     pass
 
-        
+
 class Queen(Piece):
     pass
 
-        
+
 class King(Piece):
     pass
-
-
