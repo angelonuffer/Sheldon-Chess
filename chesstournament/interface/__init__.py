@@ -4,7 +4,7 @@ import pygame
 pygame.font.init()
 pygame.mixer.init()
 
-from menu import MainMenu
+from screens import MainMenu
 from constants import LOCALE
 
 

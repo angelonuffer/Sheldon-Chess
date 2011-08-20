@@ -101,7 +101,23 @@ class NormalGameLobby(Screen):
         self.running = False
 
     def start(self):
-        pass
+        normal_game = NormalGame(self.window)
+        self.window.display(normal_game)
+
+
+class NormalGame(Screen):
+
+    def __init__(self, window):
+        super(NormalGame, self).__init__(window)
+        self.window = window
+        self.surface = pygame.Surface(window.size)
+        self.board = Board(window.height - 20, window.height - 20)
+
+    @property
+    def frame(self):
+        self.surface.fill((200, 255, 255))
+        self.put_widget(self.board, (self.window.width - self.window.height / 2 - 10, self.window.center[1]))
+        return self.surface
 
 
 class Credits(Screen):
