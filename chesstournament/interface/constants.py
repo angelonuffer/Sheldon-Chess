@@ -25,4 +25,5 @@ BUTTON_NORMAL = os.path.join(os.path.dirname(__file__), "images", "button_normal
 BUTTON_MOUSE_OVER = os.path.join(os.path.dirname(__file__), "images", "button_mouse_over.png")
 TEXTBOX_NORMAL = os.path.join(os.path.dirname(__file__), "images", "textbox_normal.png")
 TEXTBOX_MOUSE_OVER = os.path.join(os.path.dirname(__file__), "images", "textbox_mouse_over.png")
+PIECES = os.path.join(os.path.dirname(__file__), "images", "pieces.png")
 LOCALE = os.path.join(os.path.dirname(__file__), "locales")

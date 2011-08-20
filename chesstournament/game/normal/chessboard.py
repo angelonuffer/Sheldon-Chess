@@ -20,40 +20,38 @@ class ChessBoard(object):
         self.start_white_pieces()
 
     def get_field(self, x, y):
-        return self.board[x][y]
+        return self.board[y][x]
 
     def create_board(self):
         board = []
-        color ="black"
         for y in range(self.height):
-            linha = []
-            board.append(linha)
-            color = "black" if color == "white" else "white"
+            line = []
+            board.append(line)
             for x in range(self.width):
-                color = "black" if color == "white" else "white"
-                linha.append(Field(color, x, y))
+                color = "black" if ((x - y) % 2) else "white"
+                line.append(Field(color, x, y))
         return board
 
     def start_black_pieces(self):
         self.board[0][0].piece = Rook("black", 0, 0)
-        self.board[0][1].piece = Horse("black", 0, 1)
-        self.board[0][2].piece = Bishop("black", 0, 2)
-        self.board[0][3].piece = King("black", 0, 3)
-        self.board[0][4].piece = Queen("black", 0, 4)
-        self.board[0][5].piece = Bishop("black", 0, 5)
-        self.board[0][6].piece = Horse("black", 0, 6)
-        self.board[0][7].piece = Rook("black", 0, 7)
+        self.board[0][1].piece = Horse("black", 1, 0)
+        self.board[0][2].piece = Bishop("black", 2, 0)
+        self.board[0][3].piece = Queen("black", 3, 0)
+        self.board[0][4].piece = King("black", 4, 0)
+        self.board[0][5].piece = Bishop("black", 5, 0)
+        self.board[0][6].piece = Horse("black", 6, 0)
+        self.board[0][7].piece = Rook("black", 7, 0)
         for x in range(self.width):
-            self.board[1][x].piece = Pawn("black", 1, x)
+            self.board[1][x].piece = Pawn("black", x, 1)
 
     def start_white_pieces(self):
-        self.board[7][0].piece = Rook("white", 7, 0)
-        self.board[7][1].piece = Horse("white", 7, 1)
-        self.board[7][2].piece = Bishop("white", 7, 2)
-        self.board[7][3].piece = Queen("white", 7, 3)
-        self.board[7][4].piece = King("white", 7, 4)
-        self.board[7][5].piece = Bishop("white", 7, 5)
-        self.board[7][6].piece = Horse("white", 7, 6)
+        self.board[7][0].piece = Rook("white", 0, 7)
+        self.board[7][1].piece = Horse("white", 1, 7)
+        self.board[7][2].piece = Bishop("white", 2, 7)
+        self.board[7][3].piece = Queen("white", 3, 7)
+        self.board[7][4].piece = King("white", 4, 7)
+        self.board[7][5].piece = Bishop("white", 5, 7)
+        self.board[7][6].piece = Horse("white", 6, 7)
         self.board[7][7].piece = Rook("white", 7, 7)
         for x in range(self.width):
-            self.board[6][x].piece = Pawn("white", 6, x)
+            self.board[6][x].piece = Pawn("white", x, 6)
