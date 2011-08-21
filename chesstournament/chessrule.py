@@ -1,0 +1,2 @@
+class ChessRule(object):
+    pass
