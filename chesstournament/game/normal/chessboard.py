@@ -18,6 +18,7 @@ class ChessBoard(object):
         self.board = self.create_board()
         self.start_black_pieces()
         self.start_white_pieces()
+        self.turn = "white"
 
     def get_field(self, x, y):
         return self.board[y][x]
@@ -55,3 +56,17 @@ class ChessBoard(object):
         self.board[7][7].piece = Rook("white", 7, 7)
         for x in range(self.width):
             self.board[6][x].piece = Pawn("white", x, 6)
+
+    def get_piece(self, x, y):
+        field = self.get_field(x, y)
+        if field.piece.color == self.turn:
+            piece = field.piece
+            field.piece = None
+            return piece
+
+    def put_piece(self, piece, x, y):
+        field = self.get_field(x, y)
+        field.piece = piece
+        piece.x = x
+        piece.y = y
+        self.turn = "white" if self.turn == "black" else "black"
