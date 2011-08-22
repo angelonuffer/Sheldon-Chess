@@ -1,13 +1,15 @@
 class Piece(object):
-    def __init__(self,color, x, y):
+    def __init__(self, color, x, y):
         self.color = color
         self.x = x
         self.y = y
-        self.first_motion = True
 
 
 class Pawn(Piece):
-    pass
+
+    def __init__(self, color, x, y):
+        super(Pawn, self).__init__(color, x, y)
+        self.first_motion = True
 
 
 class Rook(Piece):

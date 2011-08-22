@@ -66,15 +66,11 @@ class TestBoard(unittest.TestCase):
         board.turn |should| equal_to("black")
         origin_field.piece |should| be(None)
         type(target_field.piece) |should| be(Pawn)
-    
-    def it_can_get_panw_movimentation(self):
+
+    def it_knows_the_panw_movimentation(self):
         board = ChessBoard()
         pawn = board.board[1][1].piece
         type(pawn) |should| be(Pawn)
         board.movimentation_possibilities(pawn) |should| equal_to([(2, 1), (3, 1)])
         board.board[2][0].piece = board.board[6][0].piece
         board.movimentation_possibilities(pawn) |should| equal_to([(2, 1), (3, 1), (2, 0)])
-        
-
-        
-         
