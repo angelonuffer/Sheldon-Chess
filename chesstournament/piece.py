@@ -3,6 +3,7 @@ class Piece(object):
         self.color = color
         self.x = x
         self.y = y
+        self.first_motion = True
 
 
 class Pawn(Piece):
