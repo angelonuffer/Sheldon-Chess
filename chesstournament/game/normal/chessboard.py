@@ -88,47 +88,76 @@ class ChessBoard(object):
     
     def movimentation_possibilities(self, piece):
         if type(piece) is Pawn:
-            possibilities = []
-            x = piece.x
-            y = piece.y
-            if piece.color == "black":
-                position = (y + 1, x)
-                if self.movimentation_validation(piece ,position[0], position[1]) is True and self.board[position[0]][position[1]].piece == None:
+            return self.pawn_movimentation(piece)
+        elif type(piece) is Horse:
+            return self.horse_movimentation(piece)    
+            
+    def pawn_movimentation(self, piece):
+        possibilities = []
+        x = piece.x
+        y = piece.y
+        if piece.color == "black":
+            position = (y + 1, x)
+            if self.movimentation_validation(piece ,position[0], position[1]) is True and self.board[position[0]][position[1]].piece == None:
+                possibilities.append(position)
+            position = (y + 2, x)
+            if self.movimentation_validation(piece, position[0], position[1]) is True and piece.first_motion == True and self.board[position[0]][position[1]].piece == None and self.board[position[0] - 1][position[1]].piece == None :
+                possibilities.append(position)
+            position = (y + 1, x + 1)
+            if self.movimentation_validation(piece, position[0], position[1]) is True and self.board[position[0]][position[1]].piece != None:
+                if self.board[position[0]][position[1]].piece.color == "white":
                     possibilities.append(position)
-                position = (y + 2, x)
-                if self.movimentation_validation(piece, position[0], position[1]) is True and piece.first_motion == True and self.board[position[0]][position[1]].piece == None and self.board[position[0] - 1][position[1]].piece == None :
+            position = (y + 1, x - 1)
+            if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
+                if self.board[position[0]][position[1]].piece.color == "white":
+                    possibilities.append(position)    
+            return possibilities
+        else:
+            position = (y - 1, x)
+            if self.movimentation_validation(piece ,position[0], position[1]) is True and self.board[position[0]][position[1]].piece == None:
+                possibilities.append(position)
+            position = (y - 2, x)
+            if self.movimentation_validation(piece, position[0], position[1]) is True and piece.first_motion == True and self.board[position[0]][position[1]].piece == None and self.board[position[0] - 1][position[1]].piece == None :
+                possibilities.append(position)
+            position = (y - 1, x - 1)
+            if self.movimentation_validation(piece, position[0], position[1]) is True and self.board[position[0]][position[1]].piece != None:
+                if self.board[position[0]][position[1]].piece.color == "black":
                     possibilities.append(position)
-                position = (y + 1, x + 1)
-                if self.movimentation_validation(piece, position[0], position[1]) is True and self.board[position[0]][position[1]].piece != None:
-                    if self.board[position[0]][position[1]].piece.color == "white":
-                        possibilities.append(position)
-                position = (y + 1, x - 1)
-                if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
-                    if self.board[position[0]][position[1]].piece.color == "white":
-                        possibilities.append(position)    
-                return possibilities
-
-            else:
-                position = (y - 1, x)
-                if self.movimentation_validation(piece ,position[0], position[1]) is True and self.board[position[0]][position[1]].piece == None:
-                    possibilities.append(position)
-                position = (y - 2, x)
-                if self.movimentation_validation(piece, position[0], position[1]) is True and piece.first_motion == True and self.board[position[0]][position[1]].piece == None and self.board[position[0] - 1][position[1]].piece == None :
-                    possibilities.append(position)
-                position = (y - 1, x - 1)
-                if self.movimentation_validation(piece, position[0], position[1]) is True and self.board[position[0]][position[1]].piece != None:
-                    if self.board[position[0]][position[1]].piece.color == "black":
-                        possibilities.append(position)
-                position = (y - 1, x + 1)
-                if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
-                    if self.board[position[0]][position[1]].piece.color == "black":
-                        possibilities.append(position)    
-                return possibilities
-       
-
-
+            position = (y - 1, x + 1)
+            if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
+                if self.board[position[0]][position[1]].piece.color == "black":
+                    possibilities.append(position)    
+            return possibilities        
     
-    
+    def horse_movimentation(self, piece):
+        possibilities = []
+        x = piece.x
+        y = piece.y
+        position = (y + 2, x + 1)
+        if self.movimentation_validation(piece ,position[0], position[1]) is True:
+            possibilities.append(position)
+        position = (y + 2, x - 1)
+        if self.movimentation_validation(piece ,position[0], position[1]) is True:
+            possibilities.append(position)
+        position = (y - 2, x + 1)
+        if self.movimentation_validation(piece ,position[0], position[1]) is True:
+            possibilities.append(position)
+        position = (y - 2, x - 1)
+        if self.movimentation_validation(piece ,position[0], position[1]) is True:
+            possibilities.append(position)
+        position = (y + 1, x + 2)
+        if self.movimentation_validation(piece ,position[0], position[1]) is True:
+            possibilities.append(position)
+        position = (y + 1, x - 2)
+        if self.movimentation_validation(piece ,position[0], position[1]) is True:
+            possibilities.append(position)
+        position = (y - 1, x + 2)
+        if self.movimentation_validation(piece ,position[0], position[1]) is True:
+            possibilities.append(position)
+        position = (y - 1, x - 2)
+        if self.movimentation_validation(piece ,position[0], position[1]) is True:
+            possibilities.append(position)
+        return possibilities                 
         
         
         

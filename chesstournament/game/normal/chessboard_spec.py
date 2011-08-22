@@ -1,7 +1,7 @@
 import unittest
 from should_dsl import should
 from chessboard import ChessBoard
-from chesstournament.piece import Rook, Pawn
+from chesstournament.piece import Rook, Pawn, Horse
 
 
 class TestBoard(unittest.TestCase):
@@ -74,3 +74,9 @@ class TestBoard(unittest.TestCase):
         board.movimentation_possibilities(pawn) |should| equal_to([(2, 1), (3, 1)])
         board.board[2][0].piece = board.board[6][0].piece
         board.movimentation_possibilities(pawn) |should| equal_to([(2, 1), (3, 1), (2, 0)])
+        
+    def it_knows_the_horse_movimentation(self):
+        board = ChessBoard()
+        horse = board.board[0][1].piece
+        type(horse) |should| be(Horse)
+        board.movimentation_possibilities(horse) |should| equal_to([(2, 2), (2, 0)])
