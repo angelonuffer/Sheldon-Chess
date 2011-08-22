@@ -22,3 +22,11 @@ Executing the game
 After install, you may to run::
 
     $ python chess_tournament.py
+
+
+Running tests
+-------------
+
+To run the package tests::
+
+    $ ./run_tests.sh
