@@ -7,10 +7,6 @@ Play chess with your friends.
 Installing
 ----------
 
-First, compile the i18n files running::
-
-    $ ./compile_locase.sh
-
 Then, install the chesstournament module::
 
     # python setup.py install
