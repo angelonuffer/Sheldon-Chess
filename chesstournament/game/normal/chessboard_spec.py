@@ -69,11 +69,11 @@ class TestBoard(unittest.TestCase):
 
     def it_knows_the_panw_movimentation(self):
         board = ChessBoard()
-        pawn = board.board[1][1].piece
+        pawn = board.board[0][1].piece
         type(pawn) |should| be(Pawn)
-        board.movimentation_possibilities(pawn) |should| equal_to([(2, 1), (3, 1)])
-        board.board[2][0].piece = board.board[6][0].piece
-        board.movimentation_possibilities(pawn) |should| equal_to([(2, 1), (3, 1), (2, 0)])
+        board.movimentation_possibilities(pawn) |should| equal_to([(0, 2), (0, 3)])
+        board.board[1][2].piece = board.board[0][6].piece
+        board.movimentation_possibilities(pawn) |should| equal_to([(0, 2), (0, 3), (1, 2)])
         
     def it_knows_the_horse_movimentation_for_initial_position(self):
         board = ChessBoard()

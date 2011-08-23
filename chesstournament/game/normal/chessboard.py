@@ -35,27 +35,27 @@ class ChessBoard(object):
 
     def start_black_pieces(self):
         self.board[0][0].piece = Rook("black", 0, 0)
-        self.board[0][1].piece = Horse("black", 1, 0)
-        self.board[0][2].piece = Bishop("black", 2, 0)
-        self.board[0][3].piece = Queen("black", 3, 0)
-        self.board[0][4].piece = King("black", 4, 0)
-        self.board[0][5].piece = Bishop("black", 5, 0)
-        self.board[0][6].piece = Horse("black", 6, 0)
-        self.board[0][7].piece = Rook("black", 7, 0)
+        self.board[1][0].piece = Horse("black", 1, 0)
+        self.board[2][0].piece = Bishop("black", 2, 0)
+        self.board[3][0].piece = Queen("black", 3, 0)
+        self.board[4][0].piece = King("black", 4, 0)
+        self.board[5][0].piece = Bishop("black", 5, 0)
+        self.board[6][0].piece = Horse("black", 6, 0)
+        self.board[7][0].piece = Rook("black", 7, 0)
         for x in range(self.width):
-            self.board[1][x].piece = Pawn("black", x, 1)
+            self.board[x][1].piece = Pawn("black", x, 1)
 
     def start_white_pieces(self):
-        self.board[7][0].piece = Rook("white", 0, 7)
-        self.board[7][1].piece = Horse("white", 1, 7)
-        self.board[7][2].piece = Bishop("white", 2, 7)
-        self.board[7][3].piece = Queen("white", 3, 7)
-        self.board[7][4].piece = King("white", 4, 7)
-        self.board[7][5].piece = Bishop("white", 5, 7)
-        self.board[7][6].piece = Horse("white", 6, 7)
+        self.board[0][7].piece = Rook("white", 0, 7)
+        self.board[1][7].piece = Horse("white", 1, 7)
+        self.board[2][7].piece = Bishop("white", 2, 7)
+        self.board[3][7].piece = Queen("white", 3, 7)
+        self.board[4][7].piece = King("white", 4, 7)
+        self.board[5][7].piece = Bishop("white", 5, 7)
+        self.board[6][7].piece = Horse("white", 6, 7)
         self.board[7][7].piece = Rook("white", 7, 7)
         for x in range(self.width):
-            self.board[6][x].piece = Pawn("white", x, 6)
+            self.board[x][6].piece = Pawn("white", x, 6)
 
     def get_piece(self, x, y):
         field = self.get_field(x, y)
@@ -74,16 +74,16 @@ class ChessBoard(object):
             self.turn = "white" if self.turn == "black" else "black"
             return True
 
-    def validation_field(self, y, x):
+    def validation_field(self, x, y):
         if (x >= 0 and x <= self.width) and (y >= 0 and y <= self.height):
             return True
         return False
 
-    def movimentation_validation(self, piece, y, x):
-        if self.validation_field(y, x) is True and self.board[y][x].piece == None:
+    def movimentation_validation(self, piece, x, y):
+        if self.validation_field(x, y) is True and self.board[x][y].piece == None:
             return True
-        elif self.validation_field(x ,y) is True and self.board[y][x].piece != None:
-            if self.board[y][x].piece.color != piece.color:
+        elif self.validation_field(x ,y) is True and self.board[x][y].piece != None:
+            if self.board[x][y].piece.color != piece.color:
                 return True
         return False
 
@@ -100,33 +100,33 @@ class ChessBoard(object):
         x = piece.x
         y = piece.y
         if piece.color == "black":
-            position = (y + 1, x)
+            position = (x, y + 1)
             if self.movimentation_validation(piece ,position[0], position[1]) is True and self.board[position[0]][position[1]].piece == None:
                 possibilities.append(position)
-            position = (y + 2, x)
+            position = (x, y + 2)
             if self.movimentation_validation(piece, position[0], position[1]) is True and piece.first_motion == True and self.board[position[0]][position[1]].piece == None and self.board[position[0] - 1][position[1]].piece == None :
                 possibilities.append(position)
-            position = (y + 1, x + 1)
+            position = (x + 1, y + 1)
             if self.movimentation_validation(piece, position[0], position[1]) is True and self.board[position[0]][position[1]].piece != None:
                 if self.board[position[0]][position[1]].piece.color == "white":
                     possibilities.append(position)
-            position = (y + 1, x - 1)
+            position = (x - 1, y + 1)
             if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
                 if self.board[position[0]][position[1]].piece.color == "white":
                     possibilities.append(position)
             return possibilities
         else:
-            position = (y - 1, x)
+            position = (x, y - 1)
             if self.movimentation_validation(piece ,position[0], position[1]) is True and self.board[position[0]][position[1]].piece == None:
                 possibilities.append(position)
-            position = (y - 2, x)
+            position = (x, y - 2)
             if self.movimentation_validation(piece, position[0], position[1]) is True and piece.first_motion == True and self.board[position[0]][position[1]].piece == None and self.board[position[0] - 1][position[1]].piece == None :
                 possibilities.append(position)
-            position = (y - 1, x - 1)
+            position = (x - 1, y - 1)
             if self.movimentation_validation(piece, position[0], position[1]) is True and self.board[position[0]][position[1]].piece != None:
                 if self.board[position[0]][position[1]].piece.color == "black":
                     possibilities.append(position)
-            position = (y - 1, x + 1)
+            position = (x + 1, y - 1)
             if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
                 if self.board[position[0]][position[1]].piece.color == "black":
                     possibilities.append(position)
@@ -181,3 +181,12 @@ class ChessBoard(object):
             else:
                 break
         return possibilities
+
+chessboard = ChessBoard()
+peao = chessboard.board[0][6].piece
+#for i in range(8):
+ #   for j in range(8):
+  #      print chessboard.board[j][i].piece
+   # print	
+print peao
+print chessboard.movimentation_possibilities(peao)
