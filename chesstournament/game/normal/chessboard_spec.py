@@ -27,10 +27,11 @@ class TestBoard(unittest.TestCase):
         corner0 = board.get_field(0, 0)
         type(corner0.piece) |should| be(Rook)
         corner0.piece.color |should| equal_to("black")
-        field = board.get_field(4, 1)
+        field = board.get_field(2, 1)
+        print field.piece
         type(field.piece) |should| be(Pawn)
         field.piece.color |should| equal_to("black")
-        field = board.get_field(3, 6)
+        field = board.get_field(2, 6)
         type(field.piece) |should| be(Pawn)
         field.piece.color |should| equal_to("white")
 

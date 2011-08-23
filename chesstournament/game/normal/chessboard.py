@@ -21,7 +21,7 @@ class ChessBoard(object):
         self.turn = "white"
 
     def get_field(self, x, y):
-        return self.board[y][x]
+        return self.board[x][y]
 
     def create_board(self):
         board = []
@@ -141,7 +141,7 @@ class ChessBoard(object):
                 piece_from_field = self.board[_y][_x].piece
                 if (abs(x-_x)==2 and abs(y-_y)==1) or abs(y-_y)==2 and abs(x-_x)==1:
                     if piece_from_field == None or piece_from_field.color != piece.color:
-                        possibilities.append((_x,_y))
+                        possibilities.append((_y,_x))
         return possibilities
 
     def _bishop_movimentation(self, piece):
@@ -181,14 +181,3 @@ class ChessBoard(object):
             else:
                 break
         return possibilities
-
-chessboard = ChessBoard()
-peao = chessboard.board[2][0].piece
-chessboard.board[3][1].piece = None
-for i in range(8):
-    for j in range(8):
-        print chessboard.board[j][i].piece
-    print	
-print peao
-
-print chessboard.movimentation_possibilities(peao)
