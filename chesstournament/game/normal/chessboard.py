@@ -134,32 +134,14 @@ class ChessBoard(object):
 
     def _horse_movimentation(self, piece):
         possibilities = []
-        x = piece.x
         y = piece.y
-        position = (y + 2, x + 1)
-        if self.movimentation_validation(piece ,position[0], position[1]) is True:
-            possibilities.append(position)
-        position = (y + 2, x - 1)
-        if self.movimentation_validation(piece ,position[0], position[1]) is True:
-            possibilities.append(position)
-        position = (y - 2, x + 1)
-        if self.movimentation_validation(piece ,position[0], position[1]) is True:
-            possibilities.append(position)
-        position = (y - 2, x - 1)
-        if self.movimentation_validation(piece ,position[0], position[1]) is True:
-            possibilities.append(position)
-        position = (y + 1, x + 2)
-        if self.movimentation_validation(piece ,position[0], position[1]) is True:
-            possibilities.append(position)
-        position = (y + 1, x - 2)
-        if self.movimentation_validation(piece ,position[0], position[1]) is True:
-            possibilities.append(position)
-        position = (y - 1, x + 2)
-        if self.movimentation_validation(piece ,position[0], position[1]) is True:
-            possibilities.append(position)
-        position = (y - 1, x - 2)
-        if self.movimentation_validation(piece ,position[0], position[1]) is True:
-            possibilities.append(position)
+        x = piece.x
+        for _x in filter(lambda a: a>=0 and a<self.width, range(x-2, x+3)):
+            for _y in filter(lambda a: a>=0 and a<self.height, range(y-2, y+3)):
+                piece_from_field = self.board[_y][_x].piece
+                if (abs(x-_x)==2 and abs(y-_y)==1) or abs(y-_y)==2 and abs(x-_x)==1:
+                    if piece_from_field == None or piece_from_field.color != piece.color:
+                        possibilities.append((_y,_x))
         return possibilities
 
     def _bishop_movimentation(self, piece):
