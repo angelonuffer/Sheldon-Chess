@@ -75,7 +75,7 @@ class ChessBoard(object):
             return True
 
     def validation_field(self, x, y):
-        if (x >= 0 and x <= self.width) and (y >= 0 and y <= self.height):
+        if (x >= 0 and x < self.width) and (y >= 0 and y < self.height):
             return True
         return False
 
@@ -141,7 +141,7 @@ class ChessBoard(object):
                 piece_from_field = self.board[_y][_x].piece
                 if (abs(x-_x)==2 and abs(y-_y)==1) or abs(y-_y)==2 and abs(x-_x)==1:
                     if piece_from_field == None or piece_from_field.color != piece.color:
-                        possibilities.append((_y,_x))
+                        possibilities.append((_x,_y))
         return possibilities
 
     def _bishop_movimentation(self, piece):
@@ -149,7 +149,7 @@ class ChessBoard(object):
         x = piece.x
         y = piece.y
         for i in range(1, self.height):
-            position = (y + i, x + i)
+            position = (x + i, y + i)
             if self.movimentation_validation(piece ,position[0], position[1]) is True:
                 possibilities.append(position)
                 if self.board[position[0]][position[1]].piece != None:
@@ -157,7 +157,7 @@ class ChessBoard(object):
             else:
                 break
         for i in range(1, self.height):
-            position = (y + i, x - i)
+            position = (x - i, y + i)
             if self.movimentation_validation(piece ,position[0], position[1]) is True:
                 possibilities.append(position)
                 if self.board[position[0]][position[1]].piece != None:
@@ -165,7 +165,7 @@ class ChessBoard(object):
             else:
                 break
         for i in range(1, self.height):
-            position = (y - i, x + i)
+            position = (x + i, y - i)
             if self.movimentation_validation(piece ,position[0], position[1]) is True:
                 possibilities.append(position)
                 if self.board[position[0]][position[1]].piece != None:
@@ -173,7 +173,7 @@ class ChessBoard(object):
             else:
                 break
         for i in range(1, self.height):
-            position = (y - i, x - i)
+            position = (x - i, y - i)
             if self.movimentation_validation(piece ,position[0], position[1]) is True:
                 possibilities.append(position)
                 if self.board[position[0]][position[1]].piece != None:
@@ -183,10 +183,12 @@ class ChessBoard(object):
         return possibilities
 
 chessboard = ChessBoard()
-peao = chessboard.board[0][6].piece
-#for i in range(8):
- #   for j in range(8):
-  #      print chessboard.board[j][i].piece
-   # print	
+peao = chessboard.board[2][0].piece
+chessboard.board[3][1].piece = None
+for i in range(8):
+    for j in range(8):
+        print chessboard.board[j][i].piece
+    print	
 print peao
+
 print chessboard.movimentation_possibilities(peao)

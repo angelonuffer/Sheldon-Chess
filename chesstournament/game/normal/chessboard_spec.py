@@ -77,12 +77,12 @@ class TestBoard(unittest.TestCase):
         
     def it_knows_the_horse_movimentation_for_initial_position(self):
         board = ChessBoard()
-        horse = board.board[0][1].piece
+        horse = board.board[1][0].piece
         type(horse) |should| be(Horse)
-        board.movimentation_possibilities(horse) |should| equal_to([(2, 0), (2, 2)])
-        horse = board.board[0][6].piece
+        board.movimentation_possibilities(horse) |should| equal_to([(0, 2), (2, 2)])
+        horse = board.board[6][0].piece
         type(horse) |should| be(Horse)
-        board.movimentation_possibilities(horse) |should| equal_to([(2,5),(2,7)])
+        board.movimentation_possibilities(horse) |should| equal_to([(5,2),(7,2)])
 
     def it_knows_the_horse_movimentation_out_initial_position(self):
         board = ChessBoard()
@@ -95,11 +95,10 @@ class TestBoard(unittest.TestCase):
         
     def it_knows_the_bishop_movimentation(self):
         board = ChessBoard()
-        bishop = board.board[0][2].piece
+        bishop = board.board[2][0].piece
         type(bishop) |should| be(Bishop)  
         board.movimentation_possibilities(bishop) |should| equal_to([])
-        board.put_piece(bishop, 3, 3)
-        bishop_ = board.board[3][3].piece
-        type(bishop_) |should| be(Bishop)
-        board.movimentation_possibilities(bishop_) |should| equal_to([(4, 4), (5, 5), (6, 6), (4, 2), (5, 1), (6, 0), (2, 4), (2, 2)])
+        board.board[3][1].piece = None
+        board.movimentation_possibilities(bishop) |should| equal_to([(3, 1), (4, 2), (5, 3), (6, 4), (7, 5)])
+
         
