@@ -75,11 +75,23 @@ class TestBoard(unittest.TestCase):
         board.board[2][0].piece = board.board[6][0].piece
         board.movimentation_possibilities(pawn) |should| equal_to([(2, 1), (3, 1), (2, 0)])
         
-    def it_knows_the_horse_movimentation(self):
+    def it_knows_the_horse_movimentation_for_initial_position(self):
         board = ChessBoard()
         horse = board.board[0][1].piece
         type(horse) |should| be(Horse)
-        board.movimentation_possibilities(horse) |should| equal_to([(2, 2), (2, 0)])
+        board.movimentation_possibilities(horse) |should| equal_to([(2, 0), (2, 2)])
+        horse = board.board[0][6].piece
+        type(horse) |should| be(Horse)
+        board.movimentation_possibilities(horse) |should| equal_to([(2,5),(2,7)])
+
+    def it_knows_the_horse_movimentation_out_initial_position(self):
+        board = ChessBoard()
+        board.board[4][4].piece = Horse('black  ', 4, 4)
+        horse = board.board[4][4].piece
+        type(horse) |should| be(Horse)
+        possibilities = board.movimentation_possibilities(horse)
+        possibilities.sort()
+        possibilities |should| equal_to([(2, 3), (2, 5), (3, 2),(3, 6), (5, 2), (5, 6), (6, 3), (6, 5)])
         
     def it_knows_the_bishop_movimentation(self):
         board = ChessBoard()
