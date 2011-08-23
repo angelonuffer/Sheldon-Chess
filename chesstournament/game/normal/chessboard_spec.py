@@ -86,9 +86,7 @@ class TestBoard(unittest.TestCase):
         bishop = board.board[0][2].piece
         type(bishop) |should| be(Bishop)  
         board.movimentation_possibilities(bishop) |should| equal_to([])
-        board.board[3][3].piece = bishop
-        board.board[3][3].piece.x = 3
-        board.board[3][3].piece.y = 3
+        board.put_piece(bishop, 3, 3)
         bishop_ = board.board[3][3].piece
         type(bishop_) |should| be(Bishop)
         board.movimentation_possibilities(bishop_) |should| equal_to([(4, 4), (5, 5), (6, 6), (4, 2), (5, 1), (6, 0), (2, 4), (2, 2)])
