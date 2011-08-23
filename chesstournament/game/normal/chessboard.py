@@ -88,11 +88,13 @@ class ChessBoard(object):
     
     def movimentation_possibilities(self, piece):
         if type(piece) is Pawn:
-            return self.pawn_movimentation(piece)
+            return self._pawn_movimentation(piece)
         elif type(piece) is Horse:
-            return self.horse_movimentation(piece)    
+            return self._horse_movimentation(piece)
+        elif type(piece) is Bishop:
+            return self._bishop_movimentation(piece)     
             
-    def pawn_movimentation(self, piece):
+    def _pawn_movimentation(self, piece):
         possibilities = []
         x = piece.x
         y = piece.y
@@ -129,7 +131,7 @@ class ChessBoard(object):
                     possibilities.append(position)    
             return possibilities        
     
-    def horse_movimentation(self, piece):
+    def _horse_movimentation(self, piece):
         possibilities = []
         x = piece.x
         y = piece.y
@@ -158,8 +160,42 @@ class ChessBoard(object):
         if self.movimentation_validation(piece ,position[0], position[1]) is True:
             possibilities.append(position)
         return possibilities                 
-        
-        
-        
-        
+
+    def _bishop_movimentation(self, piece):
+        possibilities = []
+        x = piece.x
+        y = piece.y
+        for i in range(1, self.height):
+            position = (y + i, x + i)
+            if self.movimentation_validation(piece ,position[0], position[1]) is True:
+                possibilities.append(position)
+                if self.board[position[0]][position[1]].piece != None:
+                    break
+            else:
+                break   
+        for i in range(1, self.height):
+            position = (y + i, x - i)
+            if self.movimentation_validation(piece ,position[0], position[1]) is True:
+                possibilities.append(position)
+                if self.board[position[0]][position[1]].piece != None:
+                    break
+            else:
+                break
+        for i in range(1, self.height):
+            position = (y - i, x + i)
+            if self.movimentation_validation(piece ,position[0], position[1]) is True:
+                possibilities.append(position)
+                if self.board[position[0]][position[1]].piece != None:
+                    break
+            else:
+                break
+        for i in range(1, self.height):
+            position = (y - i, x - i)
+            if self.movimentation_validation(piece ,position[0], position[1]) is True:
+                possibilities.append(position)
+                if self.board[position[0]][position[1]].piece != None:
+                    break
+            else:
+                break
+        return possibilities
         
