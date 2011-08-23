@@ -112,11 +112,14 @@ class NormalGame(Screen):
         self.window = window
         self.surface = pygame.Surface(window.size)
         self.board = Board(window.height - 20, window.height - 20)
+        self.board.start(self)
+        self.board.x = self.window.width - self.window.height / 2 - 10
+        self.board.y = self.window.center[1]
 
     @property
     def frame(self):
         self.surface.fill((200, 255, 255))
-        self.put_widget(self.board, (self.window.width - self.window.height / 2 - 10, self.window.center[1]))
+        self.put_widget(self.board, (self.board.x, self.board.y))
         return self.surface
 
 

@@ -9,4 +9,5 @@ else:
 window.init()
 del window.screen
 del window.focus
+del window.cursor_image
 pickle.dump(window, open("window.pickle", "w"))

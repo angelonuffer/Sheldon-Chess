@@ -15,6 +15,7 @@ class Window(object):
         self.screen = None
         self.language = "en"
         self.focus = None
+        self.cursor_image = None
 
     @property
     def center(self):
@@ -27,6 +28,7 @@ class Window(object):
         _ = translation.lgettext
         self.screen = pygame.display.set_mode(self.size)
         self.focus = None
+        self.cursor_image = None
         main_menu = MainMenu(self)
         self.running = True
         self.display(main_menu)
@@ -41,7 +43,16 @@ class Window(object):
                     self.focus.handle_event(event)
             self.screen.fill((0, 0, 0))
             self.screen.blit(screen.frame, (0, 0, self.width, self.height))
+            if self.cursor_image:
+                self.put_cursor()
             pygame.display.flip()
+
+    def put_cursor(self):
+        x, y = pygame.mouse.get_pos()
+        width, height = self.cursor_image.get_size()
+        x = x - width / 2
+        y = y - height / 2
+        self.screen.blit(self.cursor_image, (x, y))
 
     def mouse_over(self, rect):
         x, y, width, height = rect

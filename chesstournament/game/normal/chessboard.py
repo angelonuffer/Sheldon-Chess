@@ -19,7 +19,6 @@ class ChessBoard(object):
         self.start_black_pieces()
         self.start_white_pieces()
         self.turn = "white"
-        
 
     def get_field(self, x, y):
         return self.board[y][x]
@@ -60,40 +59,42 @@ class ChessBoard(object):
 
     def get_piece(self, x, y):
         field = self.get_field(x, y)
-        if field.piece.color == self.turn:
-            piece = field.piece
-            field.piece = None
-            return piece
+        if field.piece:
+            if field.piece.color == self.turn:
+                piece = field.piece
+                field.piece = None
+                return piece
 
     def put_piece(self, piece, x, y):
         field = self.get_field(x, y)
-        field.piece = piece
-        piece.x = x
-        piece.y = y
-        self.turn = "white" if self.turn == "black" else "black"
-    
+        if (x, y) in self.movimentation_possibilities(piece):
+            field.piece = piece
+            piece.x = x
+            piece.y = y
+            self.turn = "white" if self.turn == "black" else "black"
+            return True
+
     def validation_field(self, y, x):
         if (x >= 0 and x <= self.width) and (y >= 0 and y <= self.height):
             return True
-        return False 
-   
+        return False
+
     def movimentation_validation(self, piece, y, x):
         if self.validation_field(y, x) is True and self.board[y][x].piece == None:
-            return True        
+            return True
         elif self.validation_field(x ,y) is True and self.board[y][x].piece != None:
             if self.board[y][x].piece.color != piece.color:
                 return True
         return False
-                
-    
+
     def movimentation_possibilities(self, piece):
         if type(piece) is Pawn:
             return self._pawn_movimentation(piece)
         elif type(piece) is Horse:
             return self._horse_movimentation(piece)
         elif type(piece) is Bishop:
-            return self._bishop_movimentation(piece)     
-            
+            return self._bishop_movimentation(piece)
+
     def _pawn_movimentation(self, piece):
         possibilities = []
         x = piece.x
@@ -112,7 +113,7 @@ class ChessBoard(object):
             position = (y + 1, x - 1)
             if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
                 if self.board[position[0]][position[1]].piece.color == "white":
-                    possibilities.append(position)    
+                    possibilities.append(position)
             return possibilities
         else:
             position = (y - 1, x)
@@ -128,9 +129,9 @@ class ChessBoard(object):
             position = (y - 1, x + 1)
             if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
                 if self.board[position[0]][position[1]].piece.color == "black":
-                    possibilities.append(position)    
-            return possibilities        
-    
+                    possibilities.append(position)
+            return possibilities
+
     def _horse_movimentation(self, piece):
         possibilities = []
         x = piece.x
@@ -159,7 +160,7 @@ class ChessBoard(object):
         position = (y - 1, x - 2)
         if self.movimentation_validation(piece ,position[0], position[1]) is True:
             possibilities.append(position)
-        return possibilities                 
+        return possibilities
 
     def _bishop_movimentation(self, piece):
         possibilities = []
@@ -172,7 +173,7 @@ class ChessBoard(object):
                 if self.board[position[0]][position[1]].piece != None:
                     break
             else:
-                break   
+                break
         for i in range(1, self.height):
             position = (y + i, x - i)
             if self.movimentation_validation(piece ,position[0], position[1]) is True:
@@ -198,4 +199,3 @@ class ChessBoard(object):
             else:
                 break
         return possibilities
-        
