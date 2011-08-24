@@ -96,6 +96,8 @@ class ChessBoard(object):
             return self._rook_movimentation(piece)
         elif type(piece) is Bishop:
             return self._bishop_movimentation(piece)
+        elif type(piece) is Queen:
+            return self._queen_movimentation(piece)
 
     def _pawn_movimentation(self, piece):
         possibilities = []
@@ -146,8 +148,7 @@ class ChessBoard(object):
                         possibilities.append((_x,_y))
         return possibilities
 
-    def _rook_movimentation(self,  piece):
-        possibilities = []
+    def _rook_movimentation(self,  piece, possibilities = []):
         _x, _y = piece.x, piece.y + 1
         while _y < self.height and self.board[_x][_y].piece == None:
             possibilities.append((_x, _y))
@@ -178,9 +179,10 @@ class ChessBoard(object):
         possibilities = []
         _x, _y = piece.x + 1, piece.y + 1
         while (_y < self.height and _x < self.width) and self.board[_x][_y].piece == None:
+            print "a"
             possibilities.append((_x, _y))
             _x += 1; _y += 1
-        if (_y < self.height and _x > self.width) and self.board[_x][_y].piece.color != piece.color:
+        if (_y < self.height and _x < self.width) and self.board[_x][_y].piece.color != piece.color:
             possibilities.append((_x, _y))
         _x, _y = piece.x - 1, piece.y - 1
         while (_y >= 0 and _x >= 0) and self.board[_x][_y].piece == None:
@@ -201,3 +203,6 @@ class ChessBoard(object):
         if (_x >= 0 and _y < self.height) and self.board[_x][_y].piece.color != piece.color:
             possibilities.append((_x, _y))
         return possibilities
+
+    def _queen_movimentation(self, piece):
+        return self._rook_movimentation(piece, self._bishop_movimentation(piece))

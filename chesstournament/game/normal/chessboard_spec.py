@@ -1,7 +1,7 @@
 import unittest
 from should_dsl import should
 from chessboard import ChessBoard
-from chesstournament.piece import Rook, Pawn, Horse, Bishop
+from chesstournament.piece import Rook, Pawn, Horse, Bishop, Queen
 
 
 class TestBoard(unittest.TestCase):
@@ -121,11 +121,29 @@ class TestBoard(unittest.TestCase):
         type(bishop) |should| be(Bishop)  
         board.movimentation_possibilities(bishop) |should| equal_to([])
     
-    def it_knows_the_rook_movimentation_out_initial_position(self):
+    def it_knows_the_bishop_movimentation_out_initial_position(self):
         board = ChessBoard()
-        bishop = board.board[2][0].piece
+        board.board[3][4].piece = Bishop('black', 3, 4)
+        bishop = board.board[3][4].piece
         type(bishop) |should| be(Bishop)  
-        board.board[3][1].piece = None
-        board.movimentation_possibilities(bishop) |should| equal_to([(3, 1), (4, 2), (5, 3), (6, 4), (7, 5)])
+        possibilities = board.movimentation_possibilities(bishop)
+        possibilities.sort() 
+        possibilities |should| equal_to([(1, 2), (1, 6), (2, 3), (2, 5), (4, 3), (4, 5), (5, 2), (5, 6)])
 
-        
+    def it_knows_the_queen_movimentation_for_initial_position(self):
+        board = ChessBoard()
+        queen = board.board[3][0].piece
+        type(queen) |should| be(Queen)
+        board.movimentation_possibilities(queen) |should| equal_to([])
+        queen = board.board[3][7].piece
+        type(queen) |should| be(Queen)  
+        board.movimentation_possibilities(queen) |should| equal_to([])
+
+    def it_knows_the_queen_movimentation_out_initial_position(self):
+        board = ChessBoard()
+        board.board[3][4].piece = Queen('black', 3, 4)
+        queen = board.board[3][4].piece
+        type(queen) |should| be(Queen)  
+        possibilities = board.movimentation_possibilities(queen)
+        possibilities.sort()
+        possibilities |should| equal_to([(0, 4),(1, 2), (1,4), (1, 6), (2, 3), (2, 4), (2, 5), (3, 2), (3 , 3), (3, 5), (3, 6), (4, 3), (4, 4), (4, 5), (5, 2), (5, 4), (5, 6), (6, 4), (7, 4)])
