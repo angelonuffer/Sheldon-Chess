@@ -55,13 +55,5 @@ class Piece(object):
             if self.core.color == "black":
                 self.image = Piece.BLACK_KING.copy()
 
-    @property
-    def x(self):
-        return self.core.x
-
-    @property
-    def y(self):
-        return self.core.y
-
     def get_image(self, width, height):
         return pygame.transform.scale(self.image, (width, height))

@@ -68,7 +68,7 @@ class Board(Widget):
         self.core = ChessBoard()
         white_field = pygame.Surface((width / self.core.width, height / self.core.height))
         white_field.fill((255, 255, 255))
-        self.pieces = []
+        self.pieces = {}
         self.selected_piece = None
         self.image = pygame.Surface((width, height))
         for x in range(self.core.width):
@@ -77,7 +77,8 @@ class Board(Widget):
                 if field.color == "white":
                     self.image.blit(white_field, (x * width / self.core.width, y * height / self.core.height))
                 if field.piece:
-                    self.pieces.append(Piece(field.piece))
+                    name = "_".join([field.piece.__class__.__name__.lower(), field.piece.color])
+                    self.pieces[name] = Piece(field.piece)
         self.normal = self.image.copy()
         self.update_pieces()
 
@@ -100,16 +101,17 @@ class Board(Widget):
 
     def get_piece(self, x, y, width, height):
         core_piece = self.core.get_piece(x, y)
-        for piece in self.pieces:
-            if piece.core is core_piece:
-                self.pieces.remove(piece)
-                self.selected_piece = piece
-                self.screen.window.cursor_image = piece.get_image(width, height)
-                self.update_pieces()
+        if core_piece:
+            name = "_".join([core_piece.__class__.__name__.lower(), core_piece.color])
+            piece = self.pieces[name]
+            piece.core.x = x
+            piece.core.y = y
+            self.selected_piece = piece
+            self.screen.window.cursor_image = piece.get_image(width, height)
+            self.update_pieces()
 
     def put_piece(self, x, y):
         if self.core.put_piece(self.selected_piece.core, x, y):
-            self.pieces.append(self.selected_piece)
             self.selected_piece = None
             self.screen.window.cursor_image = None
             self.update_pieces()
@@ -121,8 +123,13 @@ class Board(Widget):
         field_width = self.width / self.core.width
         field_height = self.height / self.core.height
         self.normal = self.image.copy()
-        for piece in self.pieces:
-            x = piece.x * field_width
-            y = piece.y * field_height
-            self.normal.blit(piece.get_image(field_width, field_height), (x, y))
+        for field_x in range(self.core.width):
+            for field_y in range(self.core.height):
+                field = self.core.get_field(field_x, field_y)
+                x = field_x * field_width
+                y = field_y * field_height
+                if field.piece:
+                    name = "_".join([field.piece.__class__.__name__.lower(), field.piece.color])
+                    piece = self.pieces[name]
+                    self.normal.blit(piece.get_image(field_width, field_height), (x, y))
         self.mouse_over = self.normal.copy()
