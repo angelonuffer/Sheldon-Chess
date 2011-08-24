@@ -1,6 +1,6 @@
 import pygame
 from widgets import Button, TextBox, Board
-from constants import WATER_ON_THE_OIL, MAILRAYS, CRUNCH, CREDITS
+from constants import WATER_ON_THE_OIL, MAILRAYS, CRUNCH, CREDITS, CHESSSOUND_TITLE
 
 
 class Screen(object):
@@ -27,23 +27,20 @@ class Menu(Screen):
 
     FONT = pygame.font.Font(WATER_ON_THE_OIL, 50)
 
-    def __init__(self, window, title, buttons):
+    def __init__(self, window, background_path, buttons):
         super(Menu, self).__init__(window)
         self.window = window
-        self.title = title
+        self.background = pygame.image.load(background_path)
+        self.background = pygame.transform.scale(self.background, window.size)
         self.buttons = buttons
-        self.title_surface = Menu.FONT.render(title, True, (255, 255, 255))
-        self.surface = pygame.Surface(window.size)
+        self.surface = self.background.copy()
 
     @property
     def frame(self):
-        self.surface.fill((0, 0, 0))
-        title_width, title_height = self.title_surface.get_size()
-        position = self.window.width / 2 - title_width / 2, 100
-        self.surface.blit(self.title_surface, position)
+        self.surface = self.background.copy()
         for i, button in enumerate(self.buttons):
             x, y = self.window.center
-            y = y + 50 * i
+            y = y + 50 * i + 30
             self.put_widget(button, (x, y))
         return self.surface
 
@@ -57,7 +54,7 @@ class MainMenu(Menu):
             Button(_("credits"), self.credits),
             Button(_("exit"), self.exit),
         ]
-        super(MainMenu, self).__init__(window, "Chess Tournament", buttons)
+        super(MainMenu, self).__init__(window, CHESSSOUND_TITLE, buttons)
         pygame.mixer.music.load(CRUNCH)
         pygame.mixer.music.play()
 

@@ -26,4 +26,5 @@ BUTTON_MOUSE_OVER = os.path.join(os.path.dirname(__file__), "images", "button_mo
 TEXTBOX_NORMAL = os.path.join(os.path.dirname(__file__), "images", "textbox_normal.png")
 TEXTBOX_MOUSE_OVER = os.path.join(os.path.dirname(__file__), "images", "textbox_mouse_over.png")
 PIECES = os.path.join(os.path.dirname(__file__), "images", "pieces.png")
+CHESSSOUND_TITLE = os.path.join(os.path.dirname(__file__), "images", "Image_chessSound.jpg")
 LOCALE = os.path.join(os.path.dirname(__file__), "locales")
