@@ -179,7 +179,6 @@ class ChessBoard(object):
         possibilities = []
         _x, _y = piece.x + 1, piece.y + 1
         while (_y < self.height and _x < self.width) and self.board[_x][_y].piece == None:
-            print "a"
             possibilities.append((_x, _y))
             _x += 1; _y += 1
         if (_y < self.height and _x < self.width) and self.board[_x][_y].piece.color != piece.color:
