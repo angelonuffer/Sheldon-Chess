@@ -138,10 +138,10 @@ class ChessBoard(object):
         x = piece.x
         for _x in filter(lambda a: a>=0 and a<self.width, range(x-2, x+3)):
             for _y in filter(lambda a: a>=0 and a<self.height, range(y-2, y+3)):
-                piece_from_field = self.board[_y][_x].piece
+                piece_from_field = self.board[_x][_y].piece
                 if (abs(x-_x)==2 and abs(y-_y)==1) or abs(y-_y)==2 and abs(x-_x)==1:
                     if piece_from_field == None or piece_from_field.color != piece.color:
-                        possibilities.append((_y,_x))
+                        possibilities.append((_x,_y))
         return possibilities
 
     def _bishop_movimentation(self, piece):
