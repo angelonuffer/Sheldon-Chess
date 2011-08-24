@@ -176,38 +176,28 @@ class ChessBoard(object):
 
     def _bishop_movimentation(self, piece):
         possibilities = []
-        x = piece.x
-        y = piece.y
-        for i in range(1, self.height):
-            position = (x + i, y + i)
-            if self.movimentation_validation(piece ,position[0], position[1]) is True:
-                possibilities.append(position)
-                if self.board[position[0]][position[1]].piece != None:
-                    break
-            else:
-                break
-        for i in range(1, self.height):
-            position = (x - i, y + i)
-            if self.movimentation_validation(piece ,position[0], position[1]) is True:
-                possibilities.append(position)
-                if self.board[position[0]][position[1]].piece != None:
-                    break
-            else:
-                break
-        for i in range(1, self.height):
-            position = (x + i, y - i)
-            if self.movimentation_validation(piece ,position[0], position[1]) is True:
-                possibilities.append(position)
-                if self.board[position[0]][position[1]].piece != None:
-                    break
-            else:
-                break
-        for i in range(1, self.height):
-            position = (x - i, y - i)
-            if self.movimentation_validation(piece ,position[0], position[1]) is True:
-                possibilities.append(position)
-                if self.board[position[0]][position[1]].piece != None:
-                    break
-            else:
-                break
+        _x, _y = piece.x + 1, piece.y + 1
+        while (_y < self.height and _x < self.width) and self.board[_x][_y].piece == None:
+            possibilities.append((_x, _y))
+            _x += 1; _y += 1
+        if (_y < self.height and _x > self.width) and self.board[_x][_y].piece.color != piece.color:
+            possibilities.append((_x, _y))
+        _x, _y = piece.x - 1, piece.y - 1
+        while (_y >= 0 and _x >= 0) and self.board[_x][_y].piece == None:
+            possibilities.append((_x, _y))
+            _y -= 1; _x -= 1
+        if (_y >= 0 and _x >= 0) and self.board[_x][_y].piece.color != piece.color:
+            possibilities.append((_x, _y))
+        _x, _y = piece.x + 1, piece.y - 1
+        while (_x < self.width and _y >=0) and self.board[_x][_y].piece == None:
+            possibilities.append((_x, _y))
+            _x += 1; _y -= 1
+        if (_x < self.width and _y >=0) and self.board[_x][_y].piece.color != piece.color:
+            possibilities.append((_x, _y))        
+        _x, _y = piece.x - 1, piece.y + 1
+        while (_x >= 0 and _y < self.height) and self.board[_x][_y].piece == None:
+            possibilities.append((_x, _y))
+            _x -= 1; _y += 1
+        if (_x >= 0 and _y < self.height) and self.board[_x][_y].piece.color != piece.color:
+            possibilities.append((_x, _y))
         return possibilities

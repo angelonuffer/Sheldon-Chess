@@ -112,11 +112,19 @@ class TestBoard(unittest.TestCase):
         possibilities.sort()
         possibilities |should| equal_to([(0, 4), (1,4), (2, 4),(3, 2), (3 , 3), (3, 5), (3, 6), (4, 4), (5, 4), (6, 4), (7, 4)])
         
-    def it_knows_the_bishop_movimentation(self):
+    def it_knows_the_bishop_movimentation_for_initial_position(self):
         board = ChessBoard()
         bishop = board.board[2][0].piece
         type(bishop) |should| be(Bishop)  
         board.movimentation_possibilities(bishop) |should| equal_to([])
+        bishop = board.board[2][7].piece
+        type(bishop) |should| be(Bishop)  
+        board.movimentation_possibilities(bishop) |should| equal_to([])
+    
+    def it_knows_the_rook_movimentation_out_initial_position(self):
+        board = ChessBoard()
+        bishop = board.board[2][0].piece
+        type(bishop) |should| be(Bishop)  
         board.board[3][1].piece = None
         board.movimentation_possibilities(bishop) |should| equal_to([(3, 1), (4, 2), (5, 3), (6, 4), (7, 5)])
 
