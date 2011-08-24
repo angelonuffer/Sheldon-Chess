@@ -139,7 +139,8 @@ class ChessBoard(object):
     def _horse_movimentation(self, piece):
         possibilities = [(piece.x + x, piece.y + 3 - abs(x)) for x in range(-2, 3) if x != 0]
         possibilities.extend([(piece.x + x, piece.y - 3 + abs(x)) for x in range(-2, 3) if x != 0])
-        return possibilities
+        possibilities = filter(lambda (x, y): x >= 0 and x <= 7 and y >= 0 and y <= 7, possibilities)
+        return filter(lambda (x, y): getattr(self.get_field(x, y).piece, "color", None) != piece.color, possibilities)
 
     def _rook_movimentation(self,  piece, possibilities = []):
         _x, _y = piece.x, piece.y + 1
