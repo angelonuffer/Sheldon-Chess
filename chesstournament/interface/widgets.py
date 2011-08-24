@@ -68,6 +68,9 @@ class Board(Widget):
         self.core = ChessBoard()
         white_field = pygame.Surface((width / self.core.width, height / self.core.height))
         white_field.fill((255, 255, 255))
+        self.possibilities_image = white_field.copy()
+        self.possibilities_image.fill((0, 255, 0))
+        self.possibilities_image.set_alpha(80)
         self.pieces = {}
         self.selected_piece = None
         self.image = pygame.Surface((width, height))
@@ -123,6 +126,7 @@ class Board(Widget):
         field_width = self.width / self.core.width
         field_height = self.height / self.core.height
         self.normal = self.image.copy()
+        self.put_possibles()
         for field_x in range(self.core.width):
             for field_y in range(self.core.height):
                 field = self.core.get_field(field_x, field_y)
@@ -133,3 +137,10 @@ class Board(Widget):
                     piece = self.pieces[name]
                     self.normal.blit(piece.get_image(field_width, field_height), (x, y))
         self.mouse_over = self.normal.copy()
+
+    def put_possibles(self):
+        if self.selected_piece:
+            field_width = self.width / self.core.width
+            field_height = self.height / self.core.height
+            for x, y in self.core.movimentation_possibilities(self.selected_piece.core):
+                self.normal.blit(self.possibilities_image, (x * self.width / self.core.width, y * self.height / self.core.height))
