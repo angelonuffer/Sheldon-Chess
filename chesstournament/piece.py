@@ -6,10 +6,7 @@ class Piece(object):
 
 
 class Pawn(Piece):
-
-    def __init__(self, color, x, y):
-        super(Pawn, self).__init__(color, x, y)
-        self.first_motion = True
+    pass
 
 
 class Rook(Piece):

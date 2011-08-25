@@ -106,40 +106,19 @@ class ChessBoard(object):
 
     def _pawn_movimentation(self, piece):
         possibilities = []
-        x = piece.x
-        y = piece.y
         if piece.color == "black":
-            position = (x, y + 1)
-            if self.movimentation_validation(piece ,position[0], position[1]) is True and self.board[position[0]][position[1]].piece == None:
-                possibilities.append(position)
-            position = (x, y + 2)
-            if self.movimentation_validation(piece, position[0], position[1]) is True and piece.first_motion == True and self.board[position[0]][position[1]].piece == None and self.board[position[0] - 1][position[1]].piece == None :
-                possibilities.append(position)
-            position = (x + 1, y + 1)
-            if self.movimentation_validation(piece, position[0], position[1]) is True and self.board[position[0]][position[1]].piece != None:
-                if self.board[position[0]][position[1]].piece.color == "white":
-                    possibilities.append(position)
-            position = (x - 1, y + 1)
-            if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
-                if self.board[position[0]][position[1]].piece.color == "white":
-                    possibilities.append(position)
-            return possibilities
+            if self.get_field(piece.x, piece.y + 1).piece == None:
+                possibilities = [(piece.x, piece.y + 1)]
+                if piece.y == 1:
+                    possibilities.extend([(piece.x, piece.y + 2)] if self.get_field(piece.x, piece.y + 2).piece == None else [])
+                possibilities.extend([(piece.x + i, piece.y + 1) for i in [-1, 1] if getattr(self.get_field(piece.x + i, piece.y + 1).piece, "color", piece.color) != piece.color])
         else:
-            position = (x, y - 1)
-            if self.movimentation_validation(piece ,position[0], position[1]) is True and self.board[position[0]][position[1]].piece == None:
-                possibilities.append(position)
-            position = (x, y - 2)
-            if self.movimentation_validation(piece, position[0], position[1]) is True and piece.first_motion == True and self.board[position[0]][position[1]].piece == None and self.board[position[0] - 1][position[1]].piece == None :
-                possibilities.append(position)
-            position = (x - 1, y - 1)
-            if self.movimentation_validation(piece, position[0], position[1]) is True and self.board[position[0]][position[1]].piece != None:
-                if self.board[position[0]][position[1]].piece.color == "black":
-                    possibilities.append(position)
-            position = (x + 1, y - 1)
-            if self.movimentation_validation(piece ,position[0] ,position[1]) is True and self.board[position[0]][position[1]].piece != None:
-                if self.board[position[0]][position[1]].piece.color == "black":
-                    possibilities.append(position)
-            return possibilities
+            if self.get_field(piece.x, piece.y - 1).piece == None:
+                possibilities = [(piece.x, piece.y - 1)]
+                if piece.y == 6:
+                    possibilities.extend([(piece.x, piece.y - 2)] if self.get_field(piece.x, piece.y - 2).piece == None else [])
+                possibilities.extend([(piece.x + i, piece.y - 1) for i in [-1, 1] if getattr(self.get_field(piece.x + i, piece.y - 1).piece, "color", piece.color) != piece.color])
+        return possibilities
 
     def _horse_movimentation(self, piece):
         possibilities = [(piece.x + x, piece.y + 3 - abs(x)) for x in range(-2, 3) if x != 0]

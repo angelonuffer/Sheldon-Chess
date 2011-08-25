@@ -68,13 +68,23 @@ class TestBoard(unittest.TestCase):
         origin_field.piece |should| be(None)
         type(target_field.piece) |should| be(Pawn)
 
-    def it_knows_the_panw_movimentation(self):
+    def it_knows_the_pawn_movimentation_for_initial_position(self):
         board = ChessBoard()
         pawn = board.board[0][1].piece
         type(pawn) |should| be(Pawn)
         board.movimentation_possibilities(pawn) |should| equal_to([(0, 2), (0, 3)])
         board.board[1][2].piece = board.board[0][6].piece
         board.movimentation_possibilities(pawn) |should| equal_to([(0, 2), (0, 3), (1, 2)])
+
+    def it_knows_the_pawn_movimentation_out_initial_position(self):
+        board = ChessBoard()
+        board.board[3][3].piece = Pawn("black", 3, 3)
+        pawn = board.board[3][3].piece
+        pawn.first_motion = False
+        type(pawn) |should| be(Pawn)
+        possibilities = board.movimentation_possibilities(pawn)
+        possibilities.sort()
+        possibilities |should| equal_to([(3, 4)])
 
     def it_knows_the_horse_movimentation_for_initial_position(self):
         board = ChessBoard()
