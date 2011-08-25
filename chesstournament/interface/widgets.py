@@ -131,7 +131,7 @@ class Board(Widget):
             for field_y in range(self.core.height):
                 field = self.core.get_field(field_x, field_y)
                 x = field_x * field_width
-                y = (7 - field_y) * field_height
+                y = field_y * field_height
                 if field.piece:
                     name = "_".join([field.piece.__class__.__name__.lower(), field.piece.color])
                     piece = self.pieces[name]
