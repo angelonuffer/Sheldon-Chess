@@ -101,6 +101,8 @@ class ChessBoard(object):
             return self._bishop_movimentation(piece)
         elif type(piece) is Queen:
             return self._queen_movimentation(piece)
+        elif type(piece) is King:
+            return self._king_movimentation(piece)
 
     def _pawn_movimentation(self, piece):
         possibilities = []
@@ -191,7 +193,7 @@ class ChessBoard(object):
             possibilities.append((_x, _y))
             _x += 1; _y -= 1
         if (_x < self.width and _y >=0) and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))        
+            possibilities.append((_x, _y))
         _x, _y = piece.x - 1, piece.y + 1
         while (_x >= 0 and _y < self.height) and self.board[_x][_y].piece == None:
             possibilities.append((_x, _y))
@@ -202,3 +204,8 @@ class ChessBoard(object):
 
     def _queen_movimentation(self, piece):
         return self._rook_movimentation(piece, self._bishop_movimentation(piece))
+
+    def _king_movimentation(self, piece):
+        possibilities = [(piece.x - 1 + (n / 3), piece.y - 1 + (n % 3)) for n in range(9) if n != 4]
+        possibilities = filter(lambda (x, y): x >= 0 and x <= 7 and y >= 0 and y <= 7, possibilities)
+        return filter(lambda (x, y): getattr(self.get_field(x, y).piece, "color", None) != piece.color, possibilities)

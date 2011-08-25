@@ -1,7 +1,7 @@
 import unittest
-from should_dsl import should
+from should_dsl import should, should_not
 from chessboard import ChessBoard
-from chesstournament.piece import Rook, Pawn, Horse, Bishop, Queen
+from chesstournament.piece import Rook, Pawn, Horse, Bishop, Queen, King
 
 
 class TestBoard(unittest.TestCase):
@@ -147,3 +147,20 @@ class TestBoard(unittest.TestCase):
         possibilities = board.movimentation_possibilities(queen)
         possibilities.sort()
         possibilities |should| equal_to([(0, 4),(1, 2), (1,4), (1, 6), (2, 3), (2, 4), (2, 5), (3, 2), (3 , 3), (3, 5), (3, 6), (4, 3), (4, 4), (4, 5), (5, 2), (5, 4), (5, 6), (6, 4), (7, 4)])
+
+    def it_knows_the_king_movimentation_for_inicital_position(self):
+        board = ChessBoard()
+        king = board.board[4][0].piece
+        type(king) |should| be(King)
+        possibilities = board.movimentation_possibilities(king)
+        possibilities |should| equal_to([])
+
+    def it_knows_the_king_movimentation_out_initial_position(self):
+        board = ChessBoard()
+        king = King('white', 3, 2)
+        type(king) |should| be(King)
+        possibilities = board.movimentation_possibilities(king)
+        possibilities |should| include((2, 1))
+        possibilities |should| include((3, 1))
+        possibilities |should| include((4, 1))
+        possibilities |should_not| include((3, 2))
