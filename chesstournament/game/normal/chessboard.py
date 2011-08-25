@@ -60,7 +60,7 @@ class ChessBoard(object):
     def get_piece(self, x, y):
         field = self.get_field(x, y)
         if field.piece:
-            if field.piece.color == self.turn:
+            if field.piece.color == self.turn and self.can_move(field.piece):
                 piece = field.piece
                 field.piece = None
                 return piece
@@ -73,6 +73,9 @@ class ChessBoard(object):
             piece.y = y
             self.turn = "white" if self.turn == "black" else "black"
             return True
+
+    def can_move(self, piece):
+        return self.movimentation_possibilities(piece) != []
 
     def validation_field(self, x, y):
         if (x >= 0 and x < self.width) and (y >= 0 and y < self.height):
