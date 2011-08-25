@@ -147,7 +147,8 @@ class ChessBoard(object):
         possibilities = filter(lambda (x, y): x >= 0 and x <= 7 and y >= 0 and y <= 7, possibilities)
         return filter(lambda (x, y): getattr(self.get_field(x, y).piece, "color", None) != piece.color, possibilities)
 
-    def _rook_movimentation(self,  piece, possibilities = []):
+    def _rook_movimentation(self,  piece, possibilities=None):
+        possibilities = possibilities or []
         _x, _y = piece.x, piece.y + 1
         while _y < self.height and self.board[_x][_y].piece == None:
             possibilities.append((_x, _y))
@@ -165,7 +166,7 @@ class ChessBoard(object):
             possibilities.append((_x, _y))
             _x += 1
         if _x < self.width and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))        
+            possibilities.append((_x, _y))
         _x, _y = piece.x - 1, piece.y
         while _x >= 0 and self.board[_x][_y].piece == None:
             possibilities.append((_x, _y))
