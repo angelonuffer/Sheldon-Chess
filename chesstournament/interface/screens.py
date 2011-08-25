@@ -98,6 +98,7 @@ class NormalGameLobby(Screen):
         self.running = False
 
     def start(self):
+        pygame.mixer.music.stop()
         normal_game = NormalGame(self.window)
         self.window.display(normal_game)
 
