@@ -7,11 +7,11 @@ Play chess with your friends.
 Installing
 ----------
 
-Then, install the chesstournament module::
+Install the chesstournament module::
 
     # python setup.py install
 
-To finish, install the pygame::
+Then, install the pygame::
 
     # apt-get install python-pygame
 
