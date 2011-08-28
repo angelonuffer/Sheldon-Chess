@@ -63,7 +63,8 @@ class MainMenu(Menu):
         self.window.display(lobby)
 
     def options(self):
-        pass
+        options = OptionsMenu(self.window)
+        self.window.display(options)
 
     def credits(self):
         credits = Credits(self.window)
@@ -107,7 +108,6 @@ class NormalGame(Screen):
 
     def __init__(self, window):
         super(NormalGame, self).__init__(window)
-        self.window = window
         self.surface = pygame.Surface(window.size)
         self.board = Board(window.height - 20, window.height - 20)
         self.board.start(self)
@@ -119,6 +119,30 @@ class NormalGame(Screen):
         self.surface.fill((200, 255, 255))
         self.put_widget(self.board, (self.board.x, self.board.y))
         return self.surface
+
+
+class OptionsMenu(Menu):
+
+    def __init__(self, window):
+        buttons = [
+            Button(_("audio"), self.audio),
+            Button(_("video"), self.video),
+            Button(_("language"), self.language),
+            Button(_("back"), self.back),
+        ]
+        super(OptionsMenu, self).__init__(window, CHESSSOUND_TITLE, buttons)
+
+    def audio(self):
+        pass
+
+    def video(self):
+        pass
+
+    def language(self):
+        pass
+
+    def back(self):
+        self.running = False
 
 
 class Credits(Screen):
