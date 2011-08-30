@@ -140,23 +140,23 @@ class TestBoard(unittest.TestCase):
         possibilities.sort()
         possibilities |should| equal_to([(1, 2), (1, 6), (2, 3), (2, 5), (4, 3), (4, 5), (5, 2), (5, 6)])
 
-   # def it_knows_the_queen_movimentation_for_initial_position(self):
-   #     board = ChessBoard()
-   #     queen = board.board[3][0].piece
-   #     type(queen) |should| be(Queen)
-   #     queen.define_possibilities(board.board) |should| equal_to([])
-   #     queen = board.board[3][7].piece
-   #     type(queen) |should| be(Queen)
-   #     queen.define_possibilities(board.board) |should| equal_to([])
+    def it_knows_the_queen_movimentation_for_initial_position(self):
+        board = ChessBoard()
+        queen = board.board[3][0].piece
+        type(queen) |should| be(Queen)
+        queen.define_possibilities(board.board) |should| equal_to([])
+        queen = board.board[3][7].piece
+        type(queen) |should| be(Queen)
+        queen.define_possibilities(board.board) |should| equal_to([])
 
-   # def it_knows_the_queen_movimentation_out_initial_position(self):
-   #     board = ChessBoard()
-   #     board.board[3][4].piece = Queen('black', 3, 4)
-   #     queen = board.board[3][4].piece
-   #     type(queen) |should| be(Queen)
-   #     possibilities = queen.define_possibilities(board.board)
-   #     possibilities.sort()
-   #     possibilities |should| equal_to([(0, 4),(1, 2), (1,4), (1, 6), (2, 3), (2, 4), (2, 5), (3, 2), (3 , 3), (3, 5), (3, 6), (4, 3), (4, 4), (4, 5), (5, 2), (5, 4), (5, 6), (6, 4), (7, 4)])
+    def it_knows_the_queen_movimentation_out_initial_position(self):
+        board = ChessBoard()
+        board.board[3][4].piece = Queen('black', 3, 4)
+        queen = board.board[3][4].piece
+        type(queen) |should| be(Queen)
+        possibilities = queen.define_possibilities(board.board)
+        possibilities.sort()
+        possibilities |should| equal_to([(0, 4),(1, 2), (1,4), (1, 6), (2, 3), (2, 4), (2, 5), (3, 2), (3 , 3), (3, 5), (3, 6), (4, 3), (4, 4), (4, 5), (5, 2), (5, 4), (5, 6), (6, 4), (7, 4)])
 
     def it_knows_the_king_movimentation_for_inicital_position(self):
         board = ChessBoard()

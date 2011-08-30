@@ -40,7 +40,7 @@ class Rook(Piece):
         return self.generic_possibilities(((0, 1), (0, -1), (1, 0), (-1, 0)), board)
 
 class Bishop(Piece):
-    def define_possibilities(self, board):
+    def define_possibilities(self, board):  
         return self.generic_possibilities(((1, 1), (-1, -1), (1, -1), (-1, 1)), board)
 
 class Horse(Piece):
@@ -52,7 +52,9 @@ class Horse(Piece):
 
 class Queen(Piece):
     def define_possibilities(self, board):
-        return self._rook_movimentation(piece, self._bishop_movimentation(piece))
+        possibilities = self.generic_possibilities(((0, 1), (0, -1), (1, 0), (-1, 0)), board)
+        possibilities.extend(self.generic_possibilities(((1, 1), (-1, -1), (1, -1), (-1, 1)), board))
+        return possibilities
 
 
 class King(Piece):
