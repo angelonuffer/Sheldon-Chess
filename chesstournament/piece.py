@@ -1,4 +1,5 @@
 class Piece(object):
+
     def __init__(self, color, x, y):
         self.color = color
         self.x = x
@@ -14,10 +15,11 @@ class Piece(object):
                 _y += j
             if (_y < 8 and _x < 8 and _y >= 0 and _x >= 0) and board[_x][_y].piece.color != self.color:
                 possibilities.append((_x, _y))
-        return possibilities         
+        return possibilities
 
 
 class Pawn(Piece):
+
     def define_possibilities(self, board):
         possibilities = []
         if self.color == "black":
@@ -36,21 +38,28 @@ class Pawn(Piece):
 
 
 class Rook(Piece):
+
     def define_possibilities(self, board):
         return self.generic_possibilities(((0, 1), (0, -1), (1, 0), (-1, 0)), board)
 
+
 class Bishop(Piece):
+
     def define_possibilities(self, board):  
         return self.generic_possibilities(((1, 1), (-1, -1), (1, -1), (-1, 1)), board)
 
+
 class Horse(Piece):
+
     def define_possibilities(self, board):
         possibilities = [(self.x + x, self.y + 3 - abs(x)) for x in range(-2, 3) if x != 0]
         possibilities.extend([(self.x + x, self.y - 3 + abs(x)) for x in range(-2, 3) if x != 0])
         possibilities = filter(lambda (x, y): x >= 0 and x <= 7 and y >= 0 and y <= 7, possibilities)
         return filter(lambda (x, y): getattr(board[x][y].piece, "color", None) != self.color, possibilities)
 
+
 class Queen(Piece):
+
     def define_possibilities(self, board):
         possibilities = self.generic_possibilities(((0, 1), (0, -1), (1, 0), (-1, 0)), board)
         possibilities.extend(self.generic_possibilities(((1, 1), (-1, -1), (1, -1), (-1, 1)), board))
@@ -58,6 +67,7 @@ class Queen(Piece):
 
 
 class King(Piece):
+
     def define_possibilities(self, board):
         possibilities = [(self.x - 1 + (n / 3), self.y - 1 + (n % 3)) for n in range(9) if n != 4]
         possibilities = filter(lambda (x, y): x >= 0 and x <= 7 and y >= 0 and y <= 7, possibilities)
