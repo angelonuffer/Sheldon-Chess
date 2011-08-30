@@ -4,6 +4,18 @@ class Piece(object):
         self.x = x
         self.y = y
 
+    def generic_possibilities(self, list_, board):
+        possibilities = []
+        for i, j in list_:
+            _x, _y = self.x + i, self.y + j
+            while (_y < 8 and _x < 8 and _y >= 0 and _x >= 0) and board[_x][_y].piece == None:
+                possibilities.append((_x, _y))
+                _x += i
+                _y += j
+            if (_y < 8 and _x < 8 and _y >= 0 and _x >= 0) and board[_x][_y].piece.color != self.color:
+                possibilities.append((_x, _y))
+        return possibilities         
+
 
 class Pawn(Piece):
     def define_possibilities(self, board):
@@ -25,32 +37,33 @@ class Pawn(Piece):
 
 class Rook(Piece):
     def define_possibilities(self, board):
-        possibilities = []
-        _x, _y = self.x, self.y + 1
-        while _y < 8 and board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _y += 1
-        if _y < 8 and board[_x][_y].piece.color != self.color:
-            possibilities.append((_x, _y))
-        _x, _y = self.x, self.y - 1
-        while _y >= 0 and board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _y -= 1
-        if _y >= 0 and board[_x][_y].piece.color != self.color:
-            possibilities.append((_x, _y))
-        _x, _y = self.x + 1, self.y
-        while _x < 8 and board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _x += 1
-        if _x < 8 and board[_x][_y].piece.color != self.color:
-            possibilities.append((_x, _y))
-        _x, _y = self.x - 1, self.y
-        while _x >= 0 and board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _x -= 1
-        if _x >= 0 and board[_x][_y].piece.color != self.color:
-            possibilities.append((_x, _y))
-        return possibilities
+        return self.generic_possibilities(((0, 1), (0, -1), (1, 0), (-1, 0)), board)
+#        possibilities = []
+#        _x, _y = self.x, self.y + 1
+#        while _y < 8 and board[_x][_y].piece == None:
+#            possibilities.append((_x, _y))
+#            _y += 1
+#        if _y < 8 and board[_x][_y].piece.color != self.color:
+#            possibilities.append((_x, _y))
+#        _x, _y = self.x, self.y - 1
+#        while _y >= 0 and board[_x][_y].piece == None:
+#            possibilities.append((_x, _y))
+#            _y -= 1
+#        if _y >= 0 and board[_x][_y].piece.color != self.color:
+#            possibilities.append((_x, _y))
+#        _x, _y = self.x + 1, self.y
+#        while _x < 8 and board[_x][_y].piece == None:
+#            possibilities.append((_x, _y))
+#            _x += 1
+#        if _x < 8 and board[_x][_y].piece.color != self.color:
+#            possibilities.append((_x, _y))
+#        _x, _y = self.x - 1, self.y
+#        while _x >= 0 and board[_x][_y].piece == None:
+#            possibilities.append((_x, _y))
+#            _x -= 1
+#        if _x >= 0 and board[_x][_y].piece.color != self.color:
+#            possibilities.append((_x, _y))
+#        return possibilities
 
 
 class Bishop(Piece):
