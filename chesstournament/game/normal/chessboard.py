@@ -67,7 +67,7 @@ class ChessBoard(object):
 
     def put_piece(self, piece, x, y):
         field = self.get_field(x, y)
-        if (x, y) in self.movimentation_possibilities(piece):
+        if (x, y) in piece.define_possibilities(self.board):
             field.piece = piece
             piece.x = x
             piece.y = y
@@ -75,117 +75,9 @@ class ChessBoard(object):
             return True
 
     def can_move(self, piece):
-        return self.movimentation_possibilities(piece) != []
+        return piece.define_possibilities(self.board) != []
 
     def validation_field(self, x, y):
         if (x >= 0 and x < self.width) and (y >= 0 and y < self.height):
             return True
-        return False
-
-    def movimentation_validation(self, piece, x, y):
-        if self.validation_field(x, y) is True and self.board[x][y].piece == None:
-            return True
-        elif self.validation_field(x ,y) is True and self.board[x][y].piece != None:
-            if self.board[x][y].piece.color != piece.color:
-                return True
-        return False
-
-    def movimentation_possibilities(self, piece):
-        if type(piece) is Pawn:
-            return self._pawn_movimentation(piece)
-        elif type(piece) is Horse:
-            return self._horse_movimentation(piece)
-        elif type(piece) is Rook:
-            return self._rook_movimentation(piece)
-        elif type(piece) is Bishop:
-            return self._bishop_movimentation(piece)
-        elif type(piece) is Queen:
-            return self._queen_movimentation(piece)
-        elif type(piece) is King:
-            return self._king_movimentation(piece)
-
-    def _pawn_movimentation(self, piece):
-        possibilities = []
-        if piece.color == "black":
-            if self.get_field(piece.x, piece.y + 1).piece == None:
-                possibilities = [(piece.x, piece.y + 1)]
-                if piece.y == 1:
-                    possibilities.extend([(piece.x, piece.y + 2)] if self.get_field(piece.x, piece.y + 2).piece == None else [])
-                possibilities.extend([(piece.x + i, piece.y + 1) for i in [-1, 1] if getattr(self.get_field(piece.x + i, piece.y + 1).piece, "color", piece.color) != piece.color])
-        else:
-            if self.get_field(piece.x, piece.y - 1).piece == None:
-                possibilities = [(piece.x, piece.y - 1)]
-                if piece.y == 6:
-                    possibilities.extend([(piece.x, piece.y - 2)] if self.get_field(piece.x, piece.y - 2).piece == None else [])
-                possibilities.extend([(piece.x + i, piece.y - 1) for i in [-1, 1] if getattr(self.get_field(piece.x + i, piece.y - 1).piece, "color", piece.color) != piece.color])
-        return possibilities
-
-    def _horse_movimentation(self, piece):
-        possibilities = [(piece.x + x, piece.y + 3 - abs(x)) for x in range(-2, 3) if x != 0]
-        possibilities.extend([(piece.x + x, piece.y - 3 + abs(x)) for x in range(-2, 3) if x != 0])
-        possibilities = filter(lambda (x, y): x >= 0 and x <= 7 and y >= 0 and y <= 7, possibilities)
-        return filter(lambda (x, y): getattr(self.get_field(x, y).piece, "color", None) != piece.color, possibilities)
-
-    def _rook_movimentation(self,  piece, possibilities=None):
-        possibilities = possibilities or []
-        _x, _y = piece.x, piece.y + 1
-        while _y < self.height and self.board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _y += 1
-        if _y < self.height and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))
-        _x, _y = piece.x, piece.y - 1
-        while _y >= 0 and self.board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _y -= 1
-        if _y >= 0 and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))
-        _x, _y = piece.x + 1, piece.y
-        while _x < self.width and self.board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _x += 1
-        if _x < self.width and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))
-        _x, _y = piece.x - 1, piece.y
-        while _x >= 0 and self.board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _x -= 1
-        if _x >= 0 and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))
-        return possibilities
-
-    def _bishop_movimentation(self, piece):
-        possibilities = []
-        _x, _y = piece.x + 1, piece.y + 1
-        while (_y < self.height and _x < self.width) and self.board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _x += 1; _y += 1
-        if (_y < self.height and _x < self.width) and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))
-        _x, _y = piece.x - 1, piece.y - 1
-        while (_y >= 0 and _x >= 0) and self.board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _y -= 1; _x -= 1
-        if (_y >= 0 and _x >= 0) and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))
-        _x, _y = piece.x + 1, piece.y - 1
-        while (_x < self.width and _y >=0) and self.board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _x += 1; _y -= 1
-        if (_x < self.width and _y >=0) and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))
-        _x, _y = piece.x - 1, piece.y + 1
-        while (_x >= 0 and _y < self.height) and self.board[_x][_y].piece == None:
-            possibilities.append((_x, _y))
-            _x -= 1; _y += 1
-        if (_x >= 0 and _y < self.height) and self.board[_x][_y].piece.color != piece.color:
-            possibilities.append((_x, _y))
-        return possibilities
-
-    def _queen_movimentation(self, piece):
-        return self._rook_movimentation(piece, self._bishop_movimentation(piece))
-
-    def _king_movimentation(self, piece):
-        possibilities = [(piece.x - 1 + (n / 3), piece.y - 1 + (n % 3)) for n in range(9) if n != 4]
-        possibilities = filter(lambda (x, y): x >= 0 and x <= 7 and y >= 0 and y <= 7, possibilities)
-        return filter(lambda (x, y): getattr(self.get_field(x, y).piece, "color", None) != piece.color, possibilities)
+        return False        

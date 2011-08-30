@@ -142,5 +142,5 @@ class Board(Widget):
         if self.selected_piece:
             field_width = self.width / self.core.width
             field_height = self.height / self.core.height
-            for x, y in self.core.movimentation_possibilities(self.selected_piece.core):
+            for x, y in self.selected_piece.core.define_possibilities(self.core.board):
                 self.normal.blit(self.possibilities_image, (x * self.width / self.core.width, y * self.height / self.core.height))
