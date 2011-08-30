@@ -13,5 +13,6 @@ setup(name="chesstournament",
       long_description=readme,
       author="Ângelo Otávio Nuffer Nunes",
       author_email="angelonuffer@gmail.com",
+      license="MIT License",
       packages=["chesstournament"],
       )
