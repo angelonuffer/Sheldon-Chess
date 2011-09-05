@@ -1,6 +1,6 @@
 build/
 dist/
-chesstournament.egg-info/
+sheldonchess.egg-info/
 *.pyc
 *.pickle
 *.mo
