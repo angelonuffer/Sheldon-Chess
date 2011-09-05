@@ -1,7 +1,7 @@
 import unittest
 from should_dsl import should, should_not
 from chessboard import ChessBoard
-from chesstournament.piece import Rook, Pawn, Horse, Bishop, Queen, King
+from sheldonchess.piece import Rook, Pawn, Horse, Bishop, Queen, King
 
 
 class TestBoard(unittest.TestCase):

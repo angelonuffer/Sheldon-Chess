@@ -1,4 +1,4 @@
-from chesstournament.piece import Pawn, Horse, King, Bishop, Queen, Rook
+from sheldonchess.piece import Pawn, Horse, King, Bishop, Queen, Rook
 
 
 class Field(object):
@@ -80,4 +80,4 @@ class ChessBoard(object):
     def validation_field(self, x, y):
         if (x >= 0 and x < self.width) and (y >= 0 and y < self.height):
             return True
-        return False        
+        return False

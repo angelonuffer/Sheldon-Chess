@@ -1,5 +1,5 @@
 import pygame
-from chesstournament.piece import Pawn, Rook, Bishop, Horse, Queen, King
+from sheldonchess.piece import Pawn, Rook, Bishop, Horse, Queen, King
 from constants import PIECES
 
 def get_piece_surface(x, y):

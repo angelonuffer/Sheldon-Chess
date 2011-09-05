@@ -1,4 +1,4 @@
-Chess Tournament 0.0.1
+SHeldon Chess 0.0.1
 ======================
 
 Play chess with your friends.
@@ -7,7 +7,7 @@ Play chess with your friends.
 Installing
 ----------
 
-Install the chesstournament module::
+Install the sheldonchess module::
 
     # python setup.py install
 
@@ -21,7 +21,7 @@ Executing the game
 
 After install, you may to run::
 
-    $ python chess_tournament.py
+    $ python sheldon_chess.py
 
 
 Running tests

@@ -1,6 +1,6 @@
 import os
 import pickle
-from chesstournament.interface import Window
+from sheldonchess.interface import Window
 
 if os.path.isfile("window.pickle"):
     window = pickle.load(open("window.pickle"))

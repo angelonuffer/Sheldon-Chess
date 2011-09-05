@@ -7,12 +7,12 @@ readme = open("README.rst").read()
 
 subprocess.call("./compile_locales.sh")
 
-setup(name="chesstournament",
+setup(name="sheldonchess",
       version=version,
       description="Play chess with your friends",
       long_description=readme,
       author="Ângelo Otávio Nuffer Nunes",
       author_email="angelonuffer@gmail.com",
       license="MIT License",
-      packages=["chesstournament"],
+      packages=["sheldonchess"],
       )

@@ -6,7 +6,7 @@ from constants import (
     TEXTBOX_NORMAL,
     TEXTBOX_MOUSE_OVER,
     )
-from chesstournament.game.normal import ChessBoard
+from sheldonchess.game.normal import ChessBoard
 from pieces import Piece
 
 
