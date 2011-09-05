@@ -13,9 +13,7 @@ from pieces import Piece
 class Widget(object):
 
     def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                self.action()
+        pass
 
 
 class Button(Widget):
@@ -34,6 +32,11 @@ class Button(Widget):
         self.mouse_over = pygame.image.load(BUTTON_MOUSE_OVER)
         self.mouse_over.blit(self.text_surface, position)
 
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                self.action()
+
 
 class TextBox(Widget):
 
@@ -43,9 +46,6 @@ class TextBox(Widget):
         self.text = text
         self.size = self.width, self.height = 200, 40
         self.update_text()
-
-    def action(self):
-        pass
 
     def update_text(self):
         self.normal = pygame.image.load(TEXTBOX_NORMAL)
@@ -118,9 +118,6 @@ class Board(Widget):
             self.selected_piece = None
             self.screen.window.cursor_image = None
             self.update_pieces()
-
-    def action(self):
-        pass
 
     def update_pieces(self):
         field_width = self.width / self.core.width
