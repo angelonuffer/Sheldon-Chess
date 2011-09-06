@@ -9,10 +9,9 @@ class Screen(object):
         self.window = window
         self.running = True
 
-    def put_widget(self, widget, center):
-        x, y = center
-        x = x - widget.width / 2
-        y = y - widget.height / 2
+    def put_widget(self, widget):
+        x = widget.x - widget.width / 2
+        y = widget.y - widget.height / 2
         rect = (x, y, widget.width, widget.height)
         if self.window.mouse_over(rect):
             self.surface.blit(widget.mouse_over, rect)
@@ -30,18 +29,21 @@ class Menu(Screen):
     def __init__(self, window, background_path, buttons):
         super(Menu, self).__init__(window)
         self.window = window
+        self.buttons = []
+        x, y = self.window.center
+        y += 30
+        for button_name, action in buttons:
+            self.buttons.append(Button(x, y, button_name, action))
+            y += 50
         self.background = pygame.image.load(background_path)
         self.background = pygame.transform.scale(self.background, window.size)
-        self.buttons = buttons
         self.surface = self.background.copy()
 
     @property
     def frame(self):
         self.surface = self.background.copy()
-        for i, button in enumerate(self.buttons):
-            x, y = self.window.center
-            y = y + 50 * i + 30
-            self.put_widget(button, (x, y))
+        for button in self.buttons:
+            self.put_widget(button)
         return self.surface
 
 
@@ -49,10 +51,10 @@ class MainMenu(Menu):
 
     def __init__(self, window):
         buttons = [
-            Button(_("new game"), self.new_game),
-            Button(_("options"), self.options),
-            Button(_("credits"), self.credits),
-            Button(_("exit"), self.exit),
+            (_("new game"), self.new_game),
+            (_("options"), self.options),
+            (_("credits"), self.credits),
+            (_("exit"), self.exit),
         ]
         super(MainMenu, self).__init__(window, CHESSSOUND_TITLE, buttons)
         pygame.mixer.music.load(CRUNCH)
@@ -79,20 +81,20 @@ class NormalGameLobby(Screen):
     def __init__(self, window):
         super(NormalGameLobby, self).__init__(window)
         self.surface = pygame.Surface(window.size)
-        self.back_button = Button(_("back"), self.back)
-        self.player_black = TextBox("Player 1")
-        self.player_white = TextBox("Player 2")
-        self.board = Board(200, 200)
-        self.start_button = Button(_("start"), self.start)
+        self.back_button = Button(120, self.window.center[1], _("back"), self.back)
+        self.player_black = TextBox(self.window.center[0], 25, "Player 1")
+        self.player_white = TextBox(self.window.center[0], 285, "Player 2")
+        self.board = Board(self.window.center[0], 155, 200, 200)
+        self.start_button = Button(self.window.width - 120, self.window.center[1], _("start"), self.start)
 
     @property
     def frame(self):
         self.surface.fill((100, 100, 255))
-        self.put_widget(self.back_button, (120, self.window.center[1]))
-        self.put_widget(self.player_black, (self.window.center[0], 25))
-        self.put_widget(self.player_white, (self.window.center[0], 285))
-        self.put_widget(self.board, (self.window.center[0], 155))
-        self.put_widget(self.start_button, (self.window.width - 120, self.window.center[1]))
+        self.put_widget(self.back_button)
+        self.put_widget(self.player_black)
+        self.put_widget(self.player_white)
+        self.put_widget(self.board)
+        self.put_widget(self.start_button)
         return self.surface
 
     def back(self):
@@ -109,15 +111,15 @@ class NormalGame(Screen):
     def __init__(self, window):
         super(NormalGame, self).__init__(window)
         self.surface = pygame.Surface(window.size)
-        self.board = Board(window.height - 20, window.height - 20)
+        x = self.window.width - self.window.height / 2 - 10
+        y = self.window.center[1]
+        self.board = Board(x, y, window.height - 20, window.height - 20)
         self.board.start(self)
-        self.board.x = self.window.width - self.window.height / 2 - 10
-        self.board.y = self.window.center[1]
 
     @property
     def frame(self):
         self.surface.fill((200, 255, 255))
-        self.put_widget(self.board, (self.board.x, self.board.y))
+        self.put_widget(self.board)
         return self.surface
 
 
@@ -125,10 +127,10 @@ class OptionsMenu(Menu):
 
     def __init__(self, window):
         buttons = [
-            Button(_("audio"), self.audio),
-            Button(_("video"), self.video),
-            Button(_("language"), self.language),
-            Button(_("back"), self.back),
+            (_("audio"), self.audio),
+            (_("video"), self.video),
+            (_("language"), self.language),
+            (_("back"), self.back),
         ]
         super(OptionsMenu, self).__init__(window, CHESSSOUND_TITLE, buttons)
 
@@ -156,13 +158,13 @@ class Credits(Screen):
         for i, line in enumerate(CREDITS.split("\n")):
             line_surface = Credits.FONT.render(line, True, (255, 255, 255))
             self.text_surface.blit(line_surface, (50, i * 20))
-        self.back_button = Button(_("back"), self.back)
+        self.back_button = Button(self.window.width / 2, self.window.height - 100, _("back"), self.back)
 
     @property
     def frame(self):
         self.surface.fill((0, 0, 0))
         self.surface.blit(self.text_surface, (0, 0))
-        self.put_widget(self.back_button, (self.window.width / 2, self.window.height - 100))
+        self.put_widget(self.back_button)
         return self.surface
 
     def back(self):

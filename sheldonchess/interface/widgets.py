@@ -20,7 +20,9 @@ class Button(Widget):
 
     FONT = pygame.font.Font(MAILRAYS, 20)
 
-    def __init__(self, text, action):
+    def __init__(self, x, y, text, action):
+        self.x = x
+        self.y = y
         self.text = text
         self.action = action
         self.size = self.width, self.height = 200, 40
@@ -42,7 +44,9 @@ class TextBox(Widget):
 
     FONT = pygame.font.Font(MAILRAYS, 20)
 
-    def __init__(self, text):
+    def __init__(self, x, y, text):
+        self.x = x
+        self.y = y
         self.text = text
         self.size = self.width, self.height = 200, 40
         self.update_text()
@@ -59,11 +63,11 @@ class TextBox(Widget):
 
 class Board(Widget):
 
-    def __init__(self, width, height):
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
         self.width = width
         self.height = height
-        self.x = 0
-        self.y = 0
         self.screen = None
         self.core = ChessBoard()
         white_field = pygame.Surface((width / self.core.width, height / self.core.height))
