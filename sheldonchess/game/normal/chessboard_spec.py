@@ -180,3 +180,4 @@ class TestBoard(unittest.TestCase):
         len(board.get_pieces_from_other_turn()) |should| equal_to(16)
         for piece in board.get_pieces_from_other_turn():
             piece.color |should| equal_to('black')
+

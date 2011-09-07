@@ -58,7 +58,7 @@ class ChessBoard(object):
             self.board[x][6].piece = Pawn("white", x, 6)
 
     def get_piece(self, x, y):
-        field = self.get_field(x, y)
+        field = self.get_field(x, y)        
         if field.piece:
             if field.piece.color == self.turn and self.can_move(field.piece):
                 piece = field.piece
@@ -75,6 +75,7 @@ class ChessBoard(object):
             return True
 
     def can_move(self, piece):
+        print piece.define_possibilities(self.board)
         return piece.define_possibilities(self.board) != []
     
     def get_pieces_from_other_turn(self):
