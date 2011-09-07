@@ -75,7 +75,6 @@ class ChessBoard(object):
             return True
 
     def can_move(self, piece):
-        print piece.define_possibilities(self.board)
         return piece.define_possibilities(self.board) != []
     
     def get_pieces_from_other_turn(self):
@@ -85,3 +84,8 @@ class ChessBoard(object):
                 if self.board[x][y].piece != None:
                     pieces.append(self.board[x][y].piece) 
         return filter(lambda piece: piece.color != self.turn, pieces)
+
+    def get_all_possibilities_from_other_turn(self):
+        all_possibilities = []
+        [all_possibilities.extend(piece.define_possibilities(self.board)) for piece in self.get_pieces_from_other_turn()]
+        return set(all_possibilities)
