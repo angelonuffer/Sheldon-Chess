@@ -185,3 +185,12 @@ class TestBoard(unittest.TestCase):
         board = ChessBoard()
         board.get_all_possibilities_from_other_turn() |should| equal_to(set([(0,2),(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),(0,3),(1,3),(2,3),(3,3),(4,3),(5,3),(6,3),(7,3)]))
         board.get_all_possibilities_from_other_turn() |should_not| include((0,4))
+
+    def it_not_should_is_in_check_in_initial_position(self):
+        board = ChessBoard()
+        board.check_is_in_check() |should| equal_to(False)
+
+    def it_should_is_in_check(self):
+        board = ChessBoard()
+        board.board[3][5].piece = Horse('black', 3, 5)
+        board.check_is_in_check() |should| equal_to(True)
