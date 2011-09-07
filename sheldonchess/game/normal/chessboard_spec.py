@@ -194,3 +194,12 @@ class TestBoard(unittest.TestCase):
         board = ChessBoard()
         board.board[3][5].piece = Horse('black', 3, 5)
         board.check_is_in_check() |should| equal_to(True)
+
+    def it_not_should_is_in_checkmate_in_initial_position(self):
+        board = ChessBoard()
+        board.check_is_in_check() |should| equal_to(False)
+
+    def it_should_is_in_checkmate(self):
+        board = ChessBoard()
+        board.board[3][5].piece = Horse('black', 3, 5)
+        board.check_is_in_check() |should| equal_to(True)
