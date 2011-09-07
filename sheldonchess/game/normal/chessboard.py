@@ -76,8 +76,11 @@ class ChessBoard(object):
 
     def can_move(self, piece):
         return piece.define_possibilities(self.board) != []
-
-    def validation_field(self, x, y):
-        if (x >= 0 and x < self.width) and (y >= 0 and y < self.height):
-            return True
-        return False
+    
+    def get_pieces_from_other_turn(self):
+        pieces = []        
+        for x in range(8):
+            for y in range(8):
+                if self.board[x][y].piece != None:
+                    pieces.append(self.board[x][y].piece) 
+        return filter(lambda piece: piece.color != self.turn, pieces)

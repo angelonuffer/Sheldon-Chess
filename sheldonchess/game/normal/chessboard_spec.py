@@ -174,3 +174,9 @@ class TestBoard(unittest.TestCase):
         possibilities |should| include((3, 1))
         possibilities |should| include((4, 1))
         possibilities |should_not| include((3, 2))
+
+    def it_should_return_all_black_pieces(self):
+        board = ChessBoard()
+        len(board.get_pieces_from_other_turn()) |should| equal_to(16)
+        for piece in board.get_pieces_from_other_turn():
+            piece.color |should| equal_to('black')
