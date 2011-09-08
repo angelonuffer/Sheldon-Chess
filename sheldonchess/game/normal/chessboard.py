@@ -87,10 +87,18 @@ class ChessBoard(object):
     
     def get_pieces_from_other_turn(self):
         return filter(lambda piece: piece.color != self.turn, self.get_all_pieces())
+    
+    def get_pieces_from_equal_turn(self):
+        return filter(lambda piece: piece.color == self.turn, self.get_all_pieces())
 
     def get_all_possibilities_from_other_turn(self):
         all_possibilities = []
         [all_possibilities.extend(piece.define_possibilities(self.board)) for piece in self.get_pieces_from_other_turn()]
+        return set(all_possibilities)
+
+    def get_all_possibilities_from_equal_turn(self):
+        all_possibilities = []
+        [all_possibilities.extend(piece.define_possibilities(self.board)) for piece in self.get_pieces_from_equal_turn()]
         return set(all_possibilities)
     
     def check_is_in_check(self):
