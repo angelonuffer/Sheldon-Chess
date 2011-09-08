@@ -108,7 +108,10 @@ class ChessBoard(object):
     def check_is_in_checkmate(self):
         all_possibilities = self.get_all_possibilities_from_other_turn()
         king = filter(lambda piece: type(piece) == King and piece.color == self.turn, self.get_all_pieces()).pop()
-        for king_possibilitie in king.define_possibilities(self.board):
+        king_possibilities = king.define_possibilities(self.board)
+        if not(self.check_is_in_check()) and king_possibilities == []:
+            return False
+        for king_possibilitie in king_possibilities:
             if not(king_possibilitie in all_possibilities):
                 return False
         return True
