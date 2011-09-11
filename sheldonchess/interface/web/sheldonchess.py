@@ -5,9 +5,8 @@ from rajesh.element import Img, Button
 class SheldonChess(Application):
 
     def begin(self):
-        background = Img(id="background", src="images/Image_chessSound.jpg")
+        background = Img(id="background", src="images/Image_chessSound.jpg", width=800, height=600)
         self.put(background, (0, 0))
-        self.js.background.width = 800
 
         new_game = Button(id="new_game")
         new_game.text = "New game"
