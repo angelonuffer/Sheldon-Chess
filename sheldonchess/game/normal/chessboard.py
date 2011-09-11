@@ -58,7 +58,7 @@ class ChessBoard(object):
             self.board[x][6].piece = Pawn("white", x, 6)
 
     def get_piece(self, x, y):
-        field = self.get_field(x, y)
+        field = self.get_field(x, y)        
         if field.piece:
             if field.piece.color == self.turn and self.can_move(field.piece):
                 piece = field.piece
@@ -76,8 +76,42 @@ class ChessBoard(object):
 
     def can_move(self, piece):
         return piece.define_possibilities(self.board) != []
+    
+    def get_all_pieces(self):
+        pieces = []        
+        for x in range(8):
+            for y in range(8):
+                if self.board[x][y].piece != None:
+                    pieces.append(self.board[x][y].piece)     
+        return pieces
+    
+    def get_pieces_from_other_turn(self):
+        return filter(lambda piece: piece.color != self.turn, self.get_all_pieces())
+    
+    def get_pieces_from_equal_turn(self):
+        return filter(lambda piece: piece.color == self.turn, self.get_all_pieces())
 
-    def validation_field(self, x, y):
-        if (x >= 0 and x < self.width) and (y >= 0 and y < self.height):
-            return True
-        return False
+    def get_all_possibilities_from_other_turn(self):
+        all_possibilities = []
+        [all_possibilities.extend(piece.define_possibilities(self.board)) for piece in self.get_pieces_from_other_turn()]
+        return set(all_possibilities)
+
+    def get_all_possibilities_from_equal_turn(self):
+        all_possibilities = []
+        [all_possibilities.extend(piece.define_possibilities(self.board)) for piece in self.get_pieces_from_equal_turn()]
+        return set(all_possibilities)
+    
+    def check_is_in_check(self):
+        king = filter(lambda piece: type(piece) == King and piece.color == self.turn, self.get_all_pieces()).pop()
+        return (king.x, king.y) in self.get_all_possibilities_from_other_turn()
+
+    def check_is_in_checkmate(self):
+        all_possibilities = self.get_all_possibilities_from_other_turn()
+        king = filter(lambda piece: type(piece) == King and piece.color == self.turn, self.get_all_pieces()).pop()
+        king_possibilities = king.define_possibilities(self.board)
+        if not(self.check_is_in_check()) and king_possibilities == []:
+            return False
+        for king_possibilitie in king_possibilities:
+            if not(king_possibilitie in all_possibilities):
+                return False
+        return True

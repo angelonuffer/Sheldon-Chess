@@ -174,3 +174,43 @@ class TestBoard(unittest.TestCase):
         possibilities |should| include((3, 1))
         possibilities |should| include((4, 1))
         possibilities |should_not| include((3, 2))
+
+    def it_should_return_all_black_pieces(self):
+        board = ChessBoard()
+        len(board.get_pieces_from_other_turn()) |should| equal_to(16)
+        for piece in board.get_pieces_from_other_turn():
+            piece.color |should| equal_to('black')
+
+    def it_should_return_all_white_pieces(self):
+        board = ChessBoard()
+        len(board.get_pieces_from_equal_turn()) |should| equal_to(16)
+        for piece in board.get_pieces_from_equal_turn():
+            piece.color |should| equal_to('white')
+
+    def it_knows_all_possibilities_from_black_pieces(self):
+        board = ChessBoard()
+        board.get_all_possibilities_from_other_turn() |should| equal_to(set([(0,2),(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),(0,3),(1,3),(2,3),(3,3),(4,3),(5,3),(6,3),(7,3)]))
+        board.get_all_possibilities_from_other_turn() |should_not| include((0,4))
+
+    def it_knows_all_possibilities_from_white_pieces(self):
+        board = ChessBoard()
+        board.get_all_possibilities_from_equal_turn() |should| equal_to(set([(0,4),(1,4),(2,4),(3,4),(4,4),(5,4),(6,4),(7,4),(0,5),(1,5),(2,5),(3,5),(4,5),(5,5),(6,5),(7,5)]))
+        board.get_all_possibilities_from_equal_turn() |should_not| include((0,2))
+
+    def it_not_should_is_in_check_in_initial_position(self):
+        board = ChessBoard()
+        board.check_is_in_check() |should| equal_to(False)
+
+    def it_should_is_in_check(self):
+        board = ChessBoard()
+        board.board[3][5].piece = Horse('black', 3, 5)
+        board.check_is_in_check() |should| equal_to(True)
+
+    def it_not_should_is_in_checkmate_in_initial_position(self):
+        board = ChessBoard()
+        board.check_is_in_checkmate() |should| equal_to(False)
+
+    def it_should_is_in_checkmate(self):
+        board = ChessBoard()
+        board.board[3][5].piece = Horse('black', 3, 5)
+        board.check_is_in_checkmate() |should| equal_to(True)

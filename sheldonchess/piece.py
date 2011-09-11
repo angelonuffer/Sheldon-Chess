@@ -27,13 +27,23 @@ class Pawn(Piece):
                 possibilities = [(self.x, self.y + 1)]
                 if self.y == 1:
                     possibilities.extend([(self.x, self.y + 2)] if board[self.x][self.y + 2].piece == None else [])
-                possibilities.extend([(self.x + i, self.y + 1) for i in [-1, 1] if getattr(board[self.x + i][self.y + 1].piece, "color", self.color) != self.color])
+                if self.x != 0 and self.x != 7:
+                    possibilities.extend([(self.x + i, self.y + 1) for i in [-1, 1] if getattr(board[self.x + i][self.y + 1].piece, "color", self.color) != self.color])
+                elif self.x == 0:
+                    possibilities.extend([(1, 2)] if board[1][2].piece != None and board[1][2].piece != self.color else ())
+                else:
+                    possibilities.extend([(6, 2)] if board[6][2].piece != None and board[6][2].piece != self.color else ())
         else:
             if board[self.x][self.y - 1].piece == None:
                 possibilities = [(self.x, self.y - 1)]
                 if self.y == 6:
                     possibilities.extend([(self.x, self.y - 2)] if board[self.x][self.y - 2].piece == None else [])
-                possibilities.extend([(self.x + i, self.y - 1) for i in [-1, 1] if getattr(board[self.x + i][self.y - 1].piece, "color", self.color) != self.color])
+                if self.x != 0 and self.x != 7:
+                    possibilities.extend([(self.x + i, self.y - 1) for i in [-1, 1] if getattr(board[self.x + i][self.y - 1].piece, "color", self.color) != self.color])
+                elif self.x == 0:
+                    possibilities.extend([(1, 5)] if board[1][5].piece != None and board[1][5].piece != self.color else ())
+                else:
+                    possibilities.extend([(6, 5)] if board[6][5].piece != None and board[6][5].piece != self.color else ())
         return possibilities    
 
 
