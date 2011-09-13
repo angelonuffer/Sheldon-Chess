@@ -1,5 +1,6 @@
 from rajesh import Application, run, expr
 from rajesh.element import Img, Button
+from constants import CREDITS
 
 
 class SheldonChess(Application):
@@ -30,7 +31,7 @@ class SheldonChess(Application):
         pass
 
     def credits(self):
-        pass
+        self.js.alert(CREDITS)
 
 
 if __name__ == "__main__":
