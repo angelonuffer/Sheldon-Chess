@@ -53,4 +53,23 @@ class MainMenu(Menu):
         pass
 
     def credits(self):
-        self.app.js.alert(CREDITS)
+        self.js.parentElement.removeChild(expr("main_menu"))
+        credits = Credits(self.app)
+        self.app.put(credits, ("50%", "50%"))
+
+
+class Credits(Screen):
+
+    def __init__(self, app, **kwargs):
+        kwargs["id"] = "credits"
+        super(Credits, self).__init__(app, **kwargs)
+        self.text = "<p>%s<p>" % CREDITS.replace("\n", "<br>")
+        back = Button(id="back", onclick="sock.send('back')")
+        self.app.js._events["back"] = self.back
+        back.text = "back"
+        self.put(back)
+
+    def back(self):
+        self.js.parentElement.removeChild(expr("credits"))
+        main_menu = MainMenu(self.app)
+        self.app.put(main_menu, ("50%", "50%"))
