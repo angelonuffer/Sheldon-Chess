@@ -3,9 +3,16 @@ from rajesh.element import Img
 from screens import MainMenu
 
 
+class Player(object):
+
+    def __init__(self):
+        self.name = ""
+
+
 class SheldonChess(Application):
 
     def begin(self):
+        self.player = Player()
         background = Img(id="background", src="images/sheldonchess_background.png", width="100%", height="100%")
         self.put(background, (0, 0))
         main_menu = MainMenu(self)

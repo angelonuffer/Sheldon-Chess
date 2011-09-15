@@ -1,4 +1,4 @@
-from rajesh.element import Button, Div
+from rajesh.element import Button, Div, Input
 from rajesh import expr
 from constants import CREDITS
 
@@ -47,7 +47,9 @@ class MainMenu(Menu):
         super(MainMenu, self).__init__(app, buttons, **kwargs)
 
     def new_game(self):
-        pass
+        self.js.parentElement.removeChild(expr("main_menu"))
+        choose_name = ChooseName(self.app)
+        self.app.put(choose_name, ("50%", "50%"))
 
     def options(self):
         pass
@@ -56,6 +58,56 @@ class MainMenu(Menu):
         self.js.parentElement.removeChild(expr("main_menu"))
         credits = Credits(self.app)
         self.app.put(credits, ("50%", "50%"))
+
+
+class ChooseName(Screen):
+
+    def __init__(self, app, **kwargs):
+        kwargs["id"] = "choose_name"
+        super(ChooseName, self).__init__(app, **kwargs)
+        self.text = "Type your name:"
+        name = Input(id="name_input", type="text", value=self.app.player.name)
+        self.put(name)
+        enter = Button(id="enter", onclick="sock.send('enter ' + name_input.value)")
+        self.app.js._events["enter"] = self.enter
+        enter.text = "enter"
+        self.put(enter)
+        back = Button(id="back", onclick="sock.send('back')")
+        self.app.js._events["back"] = self.back
+        back.text = "back"
+        self.put(back)
+
+    def enter(self, name):
+        if name != "" and name not in NormalGameLobby.players:
+            self.app.player.name = name
+            self.js.parentElement.removeChild(expr("choose_name"))
+            normal_game_lobby = NormalGameLobby(self.app)
+            self.app.put(normal_game_lobby, ("50%", "50%"))
+
+    def back(self):
+        self.js.parentElement.removeChild(expr("choose_name"))
+        main_menu = MainMenu(self.app)
+        self.app.put(main_menu, ("50%", "50%"))
+
+
+class NormalGameLobby(Screen):
+
+    players = []
+
+    def __init__(self, app, **kwargs):
+        kwargs["id"] = "normal_game_lobby"
+        super(NormalGameLobby, self).__init__(app, **kwargs)
+        NormalGameLobby.players.append(self.app.player.name)
+        back = Button(id="back", onclick="sock.send('back')")
+        self.app.js._events["back"] = self.back
+        back.text = "back"
+        self.put(back)
+
+    def back(self):
+        NormalGameLobby.players.remove(self.app.player.name)
+        self.js.parentElement.removeChild(expr("normal_game_lobby"))
+        main_menu = MainMenu(self.app)
+        self.app.put(main_menu, ("50%", "50%"))
 
 
 class Credits(Screen):
