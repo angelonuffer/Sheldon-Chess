@@ -14,12 +14,15 @@ class Screen(Div):
         return getattr(self.app.js, self.parameters["id"])
 
     def on_put(self):
-        self.js.style.setProperty("margin-left", expr("-%s.offsetWidth / 2" % self.parameters["id"]))
-        self.js.style.setProperty("margin-top", expr("-%s.offsetHeight / 2" % self.parameters["id"]))
+        self.center()
         self.js.style.setProperty("background", "#aaaaaa")
         self.js.style.setProperty("border-radius", 9)
         self.js.style.setProperty("border-style", "solid")
         self.js.style.setProperty("padding", 5)
+
+    def center(self):
+        self.js.style.setProperty("margin-left", expr("-%s.offsetWidth / 2" % self.parameters["id"]))
+        self.js.style.setProperty("margin-top", expr("-%s.offsetHeight / 2" % self.parameters["id"]))
 
 
 class Menu(Screen):
@@ -121,18 +124,33 @@ class NormalGameLobby(Screen):
     @classmethod
     def update_players(cls):
         for player in cls.players:
-            player.app.js.player_list.innerHTML = "<p>%s</p>" % "<br>".join(cls.get_players_names())
+            player.app.js.player_list.innerHTML = "<p style=\"margin: 0\">%s</p>" % "<br>".join(cls.get_players_names())
+
+    def update_messages(self, app):
+        app.js.message_box.innerHTML = "<p style=\"margin: 0\">%s</p>" % "<br>".join(NormalGameLobby.messages)
+        app.js.message_box.scrollTop = expr("message_box.scrollHeight - 300")
 
     def on_put(self):
         super(NormalGameLobby, self).on_put()
         NormalGameLobby.update_players()
+        self.app.js.message_box.style.setProperty("overflow", "auto")
+        self.app.js.message_box.style.setProperty("width", "400px")
+        self.app.js.message_box.style.setProperty("height", "300px")
+        self.app.js.message_box.style.setProperty("float", "left")
+        self.app.js.player_list.style.setProperty("float", "left")
+        self.app.js.message_input.style.setProperty("width", "307px")
+        self.update_messages(self.app)
+        self.center()
 
-    def send(self, message):
+    def send(self, *words):
+        message = " ".join(words)
         self.app.js.message_input.value = ""
         self.app.js.message_input.focus()
         NormalGameLobby.messages.append("%s: %s" % (self.app.player.name, message))
+        if len(NormalGameLobby.messages) > 500:
+            NormalGameLobby.messages.pop(0)
         for player in NormalGameLobby.players:
-            player.app.js.message_box.innerHTML = "<p>%s</p>" % "<br>".join(NormalGameLobby.messages)
+            self.update_messages(player.app)
 
     def back(self):
         NormalGameLobby.players.remove(self.app.player)
