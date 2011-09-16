@@ -78,7 +78,7 @@ class ChooseName(Screen):
         self.put(back)
 
     def enter(self, name):
-        if name != "" and name not in NormalGameLobby.players:
+        if name != "" and name not in NormalGameLobby.get_players_names():
             self.app.player.name = name
             self.js.parentElement.removeChild(expr("choose_name"))
             normal_game_lobby = NormalGameLobby(self.app)
@@ -93,18 +93,50 @@ class ChooseName(Screen):
 class NormalGameLobby(Screen):
 
     players = []
+    messages = []
 
     def __init__(self, app, **kwargs):
         kwargs["id"] = "normal_game_lobby"
         super(NormalGameLobby, self).__init__(app, **kwargs)
-        NormalGameLobby.players.append(self.app.player.name)
+        NormalGameLobby.players.append(self.app.player)
+        message_box = Div(id="message_box")
+        self.put(message_box)
+        player_list = Div(id="player_list")
+        self.put(player_list)
+        message = Input(id="message_input", type="text")
+        self.put(message)
+        send = Button(id="send", onclick="sock.send('send ' + message_input.value)")
+        self.app.js._events["send"] = self.send
+        send.text = "send"
+        self.put(send)
         back = Button(id="back", onclick="sock.send('back')")
         self.app.js._events["back"] = self.back
         back.text = "back"
         self.put(back)
 
+    @classmethod
+    def get_players_names(cls):
+        return map(lambda player: player.name, cls.players)
+
+    @classmethod
+    def update_players(cls):
+        for player in cls.players:
+            player.app.js.player_list.innerHTML = "<p>%s</p>" % "<br>".join(cls.get_players_names())
+
+    def on_put(self):
+        super(NormalGameLobby, self).on_put()
+        NormalGameLobby.update_players()
+
+    def send(self, message):
+        self.app.js.message_input.value = ""
+        self.app.js.message_input.focus()
+        NormalGameLobby.messages.append("%s: %s" % (self.app.player.name, message))
+        for player in NormalGameLobby.players:
+            player.app.js.message_box.innerHTML = "<p>%s</p>" % "<br>".join(NormalGameLobby.messages)
+
     def back(self):
-        NormalGameLobby.players.remove(self.app.player.name)
+        NormalGameLobby.players.remove(self.app.player)
+        NormalGameLobby.update_players()
         self.js.parentElement.removeChild(expr("normal_game_lobby"))
         main_menu = MainMenu(self.app)
         self.app.put(main_menu, ("50%", "50%"))
