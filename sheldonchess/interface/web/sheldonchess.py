@@ -1,6 +1,6 @@
 from rajesh import Application, run, expr
 from rajesh.element import Img
-from screens import MainMenu
+from screens import MainMenu, NormalGameLobby
 
 
 class Player(object):
@@ -18,6 +18,12 @@ class SheldonChess(Application):
         self.put(background, (0, 0))
         main_menu = MainMenu(self)
         self.put(main_menu, ("50%", "50%"))
+
+    def connectionLost(self, reason):
+        for player in NormalGameLobby.players:
+            if player == self.player:
+                NormalGameLobby.players.remove(player)
+                NormalGameLobby.update_players()
 
 
 if __name__ == "__main__":
