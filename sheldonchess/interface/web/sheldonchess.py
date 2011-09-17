@@ -15,8 +15,7 @@ class SheldonChess(Application):
     def begin(self):
         self.player = Player(self)
         self.title = "Sheldon Chess"
-        background = Img(id="background", src="images/sheldonchess_background.png", width="100%", height="100%")
-        self.put(background, (0, 0))
+        self.background = "images/sheldonchess_background.png"
         info_box = Div(id="info_box")
         self.put(info_box, ("50%", 0))
         main_menu = MainMenu(self)
