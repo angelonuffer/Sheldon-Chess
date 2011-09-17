@@ -92,14 +92,16 @@ class ChooseName(Screen):
         super(ChooseName, self).on_put()
         self.app.js.name_input.focus()
 
-    def key_down(self, key_code, name):
-        if key_code == "13":
-            self.enter(name)
-
-    def enter(self, name, *args):
+    def key_down(self, key_code, name, *args):
         if args:
             self.error("Your name can't contain blankspaces")
             return
+        else:
+            self.app.js.info_box.innerHTML = ""
+        if key_code == "13":
+            self.enter(name)
+
+    def enter(self, name):
         if name != "" and name not in NormalGameLobby.get_players_names():
             self.app.player.name = name
             self.js.parentElement.removeChild(expr("choose_name"))

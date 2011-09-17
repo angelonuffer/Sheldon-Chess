@@ -1,5 +1,6 @@
 from rajesh import Application, run, expr
 from rajesh.element import Img, Div
+from rajesh.widget import Box
 from screens import MainMenu, NormalGameLobby
 
 
@@ -16,8 +17,7 @@ class SheldonChess(Application):
         self.player = Player(self)
         self.title = "Sheldon Chess"
         self.background = "images/sheldonchess_background.png"
-        info_box = Div(id="info_box")
-        self.put(info_box, ("50%", 0))
+        self.info_box = self.new_box("info_box", ("50%", 0))
         main_menu = MainMenu(self)
         self.put(main_menu, ("50%", "50%"))
 
