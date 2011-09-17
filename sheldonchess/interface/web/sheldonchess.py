@@ -16,10 +16,10 @@ class SheldonChess(Application):
         self.player = Player(self)
         background = Img(id="background", src="images/sheldonchess_background.png", width="100%", height="100%")
         self.put(background, (0, 0))
-        main_menu = MainMenu(self)
-        self.put(main_menu, ("50%", "50%"))
         info_box = Div(id="info_box")
         self.put(info_box, ("50%", 0))
+        main_menu = MainMenu(self)
+        self.put(main_menu, ("50%", "50%"))
 
     def connectionLost(self, reason):
         for player in NormalGameLobby.players:

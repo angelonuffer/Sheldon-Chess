@@ -75,7 +75,9 @@ class ChooseName(Screen):
         kwargs["id"] = "choose_name"
         super(ChooseName, self).__init__(app, **kwargs)
         self.text = "Type your name:"
-        name = Input(id="name_input", type="text", value=self.app.player.name)
+        name = Input(id="name_input", type="text", value=self.app.player.name,
+                     onkeydown="sock.send('key_down ' + evt.keyCode + ' ' + name_input.value)")
+        self.app.js._events["key_down"] = self.key_down
         self.put(name)
         enter = Button(id="enter", onclick="sock.send('enter ' + name_input.value)")
         self.app.js._events["enter"] = self.enter
@@ -85,6 +87,14 @@ class ChooseName(Screen):
         self.app.js._events["back"] = self.back
         back.text = "back"
         self.put(back)
+
+    def on_put(self):
+        super(ChooseName, self).on_put()
+        self.app.js.name_input.focus()
+
+    def key_down(self, key_code, name):
+        if key_code == "13":
+            self.enter(name)
 
     def enter(self, name, *args):
         if args:
@@ -115,12 +125,10 @@ class NormalGameLobby(Screen):
         self.put(message_box)
         player_list = Div(id="player_list")
         self.put(player_list)
-        message = Input(id="message_input", type="text")
+        message = Input(id="message_input", type="text",
+                        onkeydown="sock.send('key_down ' + evt.keyCode + ' ' + message_input.value)")
+        self.app.js._events["key_down"] = self.key_down
         self.put(message)
-        send = Button(id="send", onclick="sock.send('send ' + message_input.value)")
-        self.app.js._events["send"] = self.send
-        send.text = "send"
-        self.put(send)
         back = Button(id="back", onclick="sock.send('back')")
         self.app.js._events["back"] = self.back
         back.text = "back"
@@ -147,12 +155,16 @@ class NormalGameLobby(Screen):
         self.app.js.message_box.style.setProperty("height", "300px")
         self.app.js.message_box.style.setProperty("float", "left")
         self.app.js.player_list.style.setProperty("float", "left")
-        self.app.js.message_input.style.setProperty("width", "307px")
+        self.app.js.message_input.style.setProperty("width", "100%")
+        self.app.js.message_input.focus()
         self.update_messages(self.app)
         self.center()
 
-    def send(self, *words):
-        message = " ".join(words)
+    def key_down(self, key_code, *words):
+        if key_code == "13":
+            self.send(" ".join(words))
+
+    def send(self, message):
         self.app.js.message_input.value = ""
         self.app.js.message_input.focus()
         NormalGameLobby.messages.append("%s: %s" % (self.app.player.name, message))
