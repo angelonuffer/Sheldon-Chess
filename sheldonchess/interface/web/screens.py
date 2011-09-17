@@ -8,6 +8,7 @@ class Screen(Div):
     def __init__(self, app, **kwargs):
         super(Screen, self).__init__(**kwargs)
         self.app = app
+        self.app.js.info_box.innerHTML = ""
 
     @property
     def js(self):
@@ -23,6 +24,11 @@ class Screen(Div):
     def center(self):
         self.js.style.setProperty("margin-left", expr("-%s.offsetWidth / 2" % self.parameters["id"]))
         self.js.style.setProperty("margin-top", expr("-%s.offsetHeight / 2" % self.parameters["id"]))
+
+    def error(self, message):
+        self.app.js.info_box.style.setProperty("background", "red")
+        self.app.js.info_box.innerHTML = "<p style=\"margin:5\">%s</p>" % message
+        self.app.js.info_box.style.setProperty("margin-left", expr("-info_box.offsetWidth / 2"))
 
 
 class Menu(Screen):
@@ -80,7 +86,10 @@ class ChooseName(Screen):
         back.text = "back"
         self.put(back)
 
-    def enter(self, name):
+    def enter(self, name, *args):
+        if args:
+            self.error("Your name can't contain blankspaces")
+            return
         if name != "" and name not in NormalGameLobby.get_players_names():
             self.app.player.name = name
             self.js.parentElement.removeChild(expr("choose_name"))

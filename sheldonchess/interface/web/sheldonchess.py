@@ -1,5 +1,5 @@
 from rajesh import Application, run, expr
-from rajesh.element import Img
+from rajesh.element import Img, Div
 from screens import MainMenu, NormalGameLobby
 
 
@@ -18,6 +18,8 @@ class SheldonChess(Application):
         self.put(background, (0, 0))
         main_menu = MainMenu(self)
         self.put(main_menu, ("50%", "50%"))
+        info_box = Div(id="info_box")
+        self.put(info_box, ("50%", 0))
 
     def connectionLost(self, reason):
         for player in NormalGameLobby.players:
